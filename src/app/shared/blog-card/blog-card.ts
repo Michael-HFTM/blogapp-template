@@ -2,11 +2,10 @@ import { Component, input } from '@angular/core';
 import { Blog } from '../../models/blog.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-blog-card',
-  imports: [MatCardModule, MatButtonModule, NgOptimizedImage],
+  imports: [MatCardModule, MatButtonModule],
   templateUrl: './blog-card.html',
   styleUrl: './blog-card.scss',
 })

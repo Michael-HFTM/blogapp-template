@@ -1,6 +1,7 @@
-@for (blog of blogs; track blog.id) {
-  <app-blog-card [blog]="blog"></app-blog-card>
-  <br />
-} @empty {
-  <p>No blogs found.</p>
-}
+<section class="blog-list">
+  @for (blog of blogs; track blog.id) {
+    <app-blog-card [blog]="blog"></app-blog-card>
+  } @empty {
+    <p>No blogs found.</p>
+  }
+</section>
