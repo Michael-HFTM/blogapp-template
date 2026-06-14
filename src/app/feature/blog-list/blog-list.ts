@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Blog } from '../../models/blog.model';
 import blogData from '../../data/blogs.json';
 import { BlogCard } from '../../shared/blog-card/blog-card';
@@ -11,4 +11,11 @@ import { BlogCard } from '../../shared/blog-card/blog-card';
 })
 export class BlogList {
   blogs: Blog[] = blogData as Blog[];
+
+  likedBlogId = signal<Blog['id'] | null>(null);
+
+  handleLike(blogId: Blog['id']): void {
+    this.likedBlogId.set(blogId);
+    console.log('Liked blog id:', this.likedBlogId());
+  }
 }
