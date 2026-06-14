@@ -6,3 +6,9 @@
   background-image: url('https://material.angular.dev/assets/img/examples/shiba1.jpg');
   background-size: cover;
 }
+
+img[mat-card-image] {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+}

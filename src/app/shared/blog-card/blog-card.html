@@ -1,13 +1,13 @@
 <mat-card class="example-card" appearance="outlined">
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
+    <!-- <div mat-card-avatar class="example-header-image"></div> -->
     <mat-card-title>{{ blog().title }}</mat-card-title>
     <mat-card-subtitle>{{ blog().author }}</mat-card-subtitle>
   </mat-card-header>
   <img
     mat-card-image
-    src="https://material.angular.dev/assets/img/examples/shiba2.jpg"
-    alt="Photo of a Shiba Inu"
+    [src]="blog().headerImageUrl ?? 'empty-card-placeholder.svg'"
+    alt="Blog header image"
   />
   <mat-card-content>
     <p>{{ blog().contentPreview }}</p>
