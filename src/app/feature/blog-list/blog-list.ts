@@ -10,12 +10,19 @@ import { BlogCard } from '../../shared/blog-card/blog-card';
   styleUrl: './blog-list.scss',
 })
 export class BlogList {
-  blogs: Blog[] = blogData as Blog[];
+  blogs = signal<Blog[]>(blogData as Blog[]);
 
-  likedBlogId = signal<Blog['id'] | null>(null);
+  handleLike(blogId: number): void {
+    this.blogs.update((blogs) =>
+      blogs.map((blog) => (blog.id === blogId ? this.updateLikesOnBlog(blog) : blog)),
+    );
+  }
 
-  handleLike(blogId: Blog['id']): void {
-    this.likedBlogId.set(blogId);
-    console.log('Liked blog id:', this.likedBlogId());
+  private updateLikesOnBlog(blog: Blog): Blog {
+    return {
+      ...blog,
+      likedByMe: !blog.likedByMe,
+      likes: blog.likedByMe ? blog.likes - 1 : blog.likes + 1,
+    };
   }
 }

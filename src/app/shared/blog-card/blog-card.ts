@@ -13,10 +13,8 @@ import { MatIcon } from '@angular/material/icon';
 export class BlogCard {
   blog = input.required<Blog>();
   like = output<number>();
-  liked = false;
 
   emitLike() {
-    this.liked = !this.liked;
     this.like.emit(this.blog().id);
   }
 }
