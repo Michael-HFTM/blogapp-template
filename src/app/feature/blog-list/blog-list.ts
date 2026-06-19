@@ -1,7 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { Blog } from '../../models/blog.model';
-import blogData from '../../data/blogs.json';
+import { Component, inject } from '@angular/core';
 import { BlogCard } from '../../shared/blog-card/blog-card';
+import { BlogService } from '../../shared/blog/blog';
 
 @Component({
   selector: 'app-blog-list',
@@ -10,19 +9,11 @@ import { BlogCard } from '../../shared/blog-card/blog-card';
   styleUrl: './blog-list.scss',
 })
 export class BlogList {
-  blogs = signal<Blog[]>(blogData as Blog[]);
+  private readonly blogService = inject(BlogService);
+
+  blogs = this.blogService.getAll();
 
   handleLike(blogId: number): void {
-    this.blogs.update((blogs) =>
-      blogs.map((blog) => (blog.id === blogId ? this.updateLikesOnBlog(blog) : blog)),
-    );
-  }
-
-  private updateLikesOnBlog(blog: Blog): Blog {
-    return {
-      ...blog,
-      likedByMe: !blog.likedByMe,
-      likes: blog.likedByMe ? blog.likes - 1 : blog.likes + 1,
-    };
+    this.blogService.handleLike(blogId);
   }
 }
