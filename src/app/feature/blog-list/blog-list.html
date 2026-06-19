@@ -1,0 +1,7 @@
+<section class="blog-list">
+  @for (blog of blogs(); track blog.id) {
+    <app-blog-card [blog]="blog" (like)="handleLike($event)"></app-blog-card>
+  } @empty {
+    <p>No blogs found.</p>
+  }
+</section>

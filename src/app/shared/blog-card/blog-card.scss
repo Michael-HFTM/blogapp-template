@@ -1,0 +1,19 @@
+.blog-card {
+  max-width: 400px;
+}
+
+img[mat-card-image] {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+}
+
+mat-card {
+  height: 100%;
+}
+
+.like-count {
+  margin-right: 8px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
