@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { BlogOverview } from './feature/blog-overview/blog-overview';
+import { blogDetailResolver } from './feature/blog-detail/blog-detail.resolver';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,9 @@ export const routes: Routes = [
   {
     path: 'blog/:id',
     loadComponent: () => import('./feature/blog-detail/blog-detail').then((m) => m.BlogDetail),
+    resolve: {
+      blog: blogDetailResolver,
+    },
   },
   {
     path: 'about',

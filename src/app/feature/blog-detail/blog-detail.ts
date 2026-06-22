@@ -1,5 +1,5 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { BlogService } from '../../shared/blog/blog';
+import { Component, input } from '@angular/core';
+import { Blog } from '../../models/blog.model';
 
 @Component({
   selector: 'app-blog-detail',
@@ -8,11 +8,5 @@ import { BlogService } from '../../shared/blog/blog';
   styleUrl: './blog-detail.scss',
 })
 export class BlogDetail {
-  id = input.required<string>();
-  private readonly blogService = inject(BlogService);
-
-  protected readonly blog = computed(() => {
-    const blogId = Number(this.id());
-    return this.blogService.getById(blogId);
-  });
+  blog = input.required<Blog>();
 }
