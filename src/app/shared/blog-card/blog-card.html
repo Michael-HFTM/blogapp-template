@@ -3,15 +3,11 @@
     <mat-card-title>{{ blog().title }}</mat-card-title>
     <mat-card-subtitle>{{ blog().author }}</mat-card-subtitle>
   </mat-card-header>
-  @if (blog().headerImageUrl) {
-    <img mat-card-image [src]="blog().headerImageUrl" alt="Blog header image" />
-  }
-  <!-- TODO: reapply later
-  <img mat-card-image
+  <img
+    mat-card-image
     [src]="blog().headerImageUrl ?? 'empty-card-placeholder.svg'"
     alt="Blog header image"
   />
-  -->
   <mat-card-content>
     <p>{{ blog().contentPreview }}</p>
   </mat-card-content>
