@@ -2,6 +2,15 @@
   flex: 1 1 auto;
 }
 
+nav {
+  display: flex;
+  gap: 8px;
+}
+
+.active-link {
+  background: rgb(184 184 184 / 0.22);
+}
+
 .content {
   max-width: 1200px;
   margin: 2rem auto;
