@@ -14,4 +14,8 @@ export const routes: Routes = [
     path: 'about',
     loadComponent: () => import('./feature/about/about').then((m) => m.About),
   },
+  {
+    path: '**',
+    loadComponent: () => import('./feature/error/error').then((m) => m.Error),
+  },
 ];
