@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { BlogCard } from '../../shared/blog-card/blog-card';
-import { BlogService } from '../../shared/blog/blog';
+import { BlogCard } from '../../../shared/blog-card/blog-card';
+import { BlogService } from '../blog.service';
 
 @Component({
   selector: 'app-blog-list',
