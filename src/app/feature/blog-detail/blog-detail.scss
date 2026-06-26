@@ -1,0 +1,30 @@
+.blog-detail {
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.blog-image {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-content {
+  padding: 32px;
+}
+
+.blog-content h1 {
+  margin: 0 0 12px;
+  font-size: 2rem;
+}
+
+.blog-meta {
+  margin-bottom: 24px;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+}
