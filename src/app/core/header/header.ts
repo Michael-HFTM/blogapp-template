@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DOCUMENT } from '@angular/common';
-import { breakpointSignal } from '../../core/utils/breakpoint-signal';
+import { breakpointSignal } from '../utils/breakpoint-signal';
 
 @Component({
   selector: 'app-header',
