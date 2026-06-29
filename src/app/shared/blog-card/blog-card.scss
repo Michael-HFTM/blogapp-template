@@ -16,9 +16,11 @@
 
   mat-card-header {
     padding-top: vars.$spacing-md;
+    padding-bottom: vars.$spacing-sm;
   }
 
   mat-card-content {
+    padding-top: vars.$spacing-sm;
     color: var(--mat-sys-on-surface-variant);
 
     p {
