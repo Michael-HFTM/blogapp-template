@@ -12,6 +12,10 @@
       Blogs
     </a>
     <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+
+    <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
+      <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
   </nav>
 </mat-toolbar>
 
