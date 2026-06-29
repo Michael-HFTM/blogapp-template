@@ -1,21 +1,5 @@
 @use 'variables' as vars;
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-nav {
-  display: flex;
-  gap: vars.$spacing-sm;
-  align-items: center;
-}
-
-.active-link {
-  background-color: var(--mat-sys-secondary-container) !important;
-  color: var(--mat-sys-on-secondary-container) !important;
-  border-radius: vars.$border-radius-md !important;
-}
-
 .content {
   max-width: 1200px;
   margin: vars.$spacing-xl auto;

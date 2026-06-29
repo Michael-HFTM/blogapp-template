@@ -1,0 +1,44 @@
+<mat-toolbar class="app-toolbar">
+  <span class="toolbar-title">HFTM Web Applications (IN353)</span>
+  <span class="spacer"></span>
+
+  @if (!isMobile()) {
+    <nav>
+      <a
+        mat-button
+        routerLink="/"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Blogs
+      </a>
+      <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+    </nav>
+  }
+
+  <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
+    <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
+  @if (isMobile()) {
+    <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Navigation menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #mobileMenu="matMenu">
+      <a
+        mat-menu-item
+        routerLink="/"
+        routerLinkActive="active-menu-item"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon>article</mat-icon>
+        Blogs
+      </a>
+      <a mat-menu-item routerLink="/about" routerLinkActive="active-menu-item">
+        <mat-icon>info</mat-icon>
+        About
+      </a>
+    </mat-menu>
+  }
+</mat-toolbar>
