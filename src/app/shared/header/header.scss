@@ -1,16 +1,20 @@
 @use 'variables' as vars;
 
 .app-toolbar {
-  background: linear-gradient(135deg, var(--mat-sys-primary), var(--mat-sys-tertiary));
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary-container),
+    var(--mat-sys-tertiary-container)
+  );
   color: var(--mat-sys-on-primary);
 
-  // Force uniform color across all Material tokens (Angular + MDC)
-  --mat-toolbar-container-text-color: var(--mat-sys-on-primary);
-  --mat-icon-button-icon-color: var(--mat-sys-on-primary);
-  --mdc-icon-button-icon-color: var(--mat-sys-on-primary);
-  --mat-text-button-label-text-color: var(--mat-sys-on-primary);
-  --mdc-text-button-label-text-color: var(--mat-sys-on-primary);
-  --mat-icon-color: var(--mat-sys-on-primary);
+  //// Force uniform color across all Material tokens (Angular + MDC)
+  //--mat-toolbar-container-text-color: var(--mat-sys-on-primary);
+  //--mat-icon-button-icon-color: var(--mat-sys-on-primary);
+  //--mdc-icon-button-icon-color: var(--mat-sys-on-primary);
+  //--mat-text-button-label-text-color: var(--mat-sys-on-primary);
+  //--mdc-text-button-label-text-color: var(--mat-sys-on-primary);
+  //--mat-icon-color: var(--mat-sys-on-primary);
 }
 
 .spacer {

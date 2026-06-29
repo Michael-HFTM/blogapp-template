@@ -1,35 +1,30 @@
 @use '@angular/material' as mat;
 @use 'theme' as t;
+@use 'theme-colors' as colors;
 
-// ── Default: light theme ──
+// Component structure + typography initialized once with light theme.
+// With use-system-variables: true, all component colors reference --mat-sys-* CSS variables,
+// so switching themes only requires overriding those variables — no re-theming needed.
 html {
   @include mat.all-component-themes(t.$light-theme);
   @include mat.system-level-colors(t.$light-theme);
   @include mat.system-level-typography(t.$light-theme);
-  color-scheme: light;
+  @include colors.light;
 }
 
-// ── System preference: dark mode (no explicit user choice yet) ──
+// System dark preference (no explicit user choice yet)
 @media (prefers-color-scheme: dark) {
   html:not(.light-theme) {
-    @include mat.all-component-colors(t.$dark-theme);
-    @include mat.system-level-colors(t.$dark-theme);
-    color-scheme: dark;
+    @include colors.dark;
   }
 }
 
-// ── Explicit dark mode ──
+// Explicit theme overrides
 html.dark-theme {
-  @include mat.all-component-colors(t.$dark-theme);
-  @include mat.system-level-colors(t.$dark-theme);
-  color-scheme: dark;
+  @include colors.dark;
 }
-
-// ── Explicit light mode (overrides system dark preference) ──
 html.light-theme {
-  @include mat.all-component-colors(t.$light-theme);
-  @include mat.system-level-colors(t.$light-theme);
-  color-scheme: light;
+  @include colors.light;
 }
 
 html,

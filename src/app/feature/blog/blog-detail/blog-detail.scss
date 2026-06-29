@@ -14,7 +14,11 @@
   position: relative;
 
   &--no-image {
-    background: linear-gradient(135deg, var(--mat-sys-primary), var(--mat-sys-tertiary));
+    background: linear-gradient(
+      135deg,
+      var(--mat-sys-primary-container),
+      var(--mat-sys-tertiary-container)
+    );
     min-height: 220px;
     display: flex;
     align-items: flex-end;

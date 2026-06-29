@@ -1,0 +1,110 @@
+// Color tokens from Material Theme Builder.
+// Variable naming: --md-sys-color-X (Theme Builder) → --mat-sys-X (Angular Material)
+// With use-system-variables: true, Angular Material components reference --mat-sys-*,
+// so these overrides are sufficient to apply the full theme at runtime.
+
+@mixin light {
+  color-scheme: light;
+  --mat-sys-primary: rgb(27 107 81);
+  --mat-sys-surface-tint: rgb(27 107 81);
+  --mat-sys-on-primary: rgb(255 255 255);
+  --mat-sys-primary-container: rgb(166 242 209);
+  --mat-sys-on-primary-container: rgb(0 81 59);
+  --mat-sys-secondary: rgb(76 99 88);
+  --mat-sys-on-secondary: rgb(255 255 255);
+  --mat-sys-secondary-container: rgb(207 233 218);
+  --mat-sys-on-secondary-container: rgb(53 75 65);
+  --mat-sys-tertiary: rgb(62 99 116);
+  --mat-sys-on-tertiary: rgb(255 255 255);
+  --mat-sys-tertiary-container: rgb(194 232 253);
+  --mat-sys-on-tertiary-container: rgb(37 75 92);
+  --mat-sys-error: rgb(186 26 26);
+  --mat-sys-on-error: rgb(255 255 255);
+  --mat-sys-error-container: rgb(255 218 214);
+  --mat-sys-on-error-container: rgb(147 0 10);
+  --mat-sys-background: rgb(245 251 245);
+  --mat-sys-on-background: rgb(23 29 26);
+  --mat-sys-surface: rgb(245 251 245);
+  --mat-sys-on-surface: rgb(23 29 26);
+  --mat-sys-surface-variant: rgb(219 229 222);
+  --mat-sys-on-surface-variant: rgb(64 73 68);
+  --mat-sys-outline: rgb(112 121 116);
+  --mat-sys-outline-variant: rgb(191 201 194);
+  --mat-sys-shadow: rgb(0 0 0);
+  --mat-sys-scrim: rgb(0 0 0);
+  --mat-sys-inverse-surface: rgb(44 50 46);
+  --mat-sys-inverse-on-surface: rgb(236 242 237);
+  --mat-sys-inverse-primary: rgb(139 214 182);
+  --mat-sys-primary-fixed: rgb(166 242 209);
+  --mat-sys-on-primary-fixed: rgb(0 33 22);
+  --mat-sys-primary-fixed-dim: rgb(139 214 182);
+  --mat-sys-on-primary-fixed-variant: rgb(0 81 59);
+  --mat-sys-secondary-fixed: rgb(207 233 218);
+  --mat-sys-on-secondary-fixed: rgb(9 32 23);
+  --mat-sys-secondary-fixed-dim: rgb(179 204 191);
+  --mat-sys-on-secondary-fixed-variant: rgb(53 75 65);
+  --mat-sys-tertiary-fixed: rgb(194 232 253);
+  --mat-sys-on-tertiary-fixed: rgb(0 31 42);
+  --mat-sys-tertiary-fixed-dim: rgb(166 204 224);
+  --mat-sys-on-tertiary-fixed-variant: rgb(37 75 92);
+  --mat-sys-surface-dim: rgb(214 219 214);
+  --mat-sys-surface-bright: rgb(245 251 245);
+  --mat-sys-surface-container-lowest: rgb(255 255 255);
+  --mat-sys-surface-container-low: rgb(239 245 240);
+  --mat-sys-surface-container: rgb(234 239 234);
+  --mat-sys-surface-container-high: rgb(228 234 228);
+  --mat-sys-surface-container-highest: rgb(222 228 223);
+}
+
+@mixin dark {
+  color-scheme: dark;
+  --mat-sys-primary: rgb(139 214 182);
+  --mat-sys-surface-tint: rgb(139 214 182);
+  --mat-sys-on-primary: rgb(0 56 40);
+  --mat-sys-primary-container: rgb(0 81 59);
+  --mat-sys-on-primary-container: rgb(166 242 209);
+  --mat-sys-secondary: rgb(179 204 191);
+  --mat-sys-on-secondary: rgb(31 53 43);
+  --mat-sys-secondary-container: rgb(53 75 65);
+  --mat-sys-on-secondary-container: rgb(207 233 218);
+  --mat-sys-tertiary: rgb(166 204 224);
+  --mat-sys-on-tertiary: rgb(9 53 68);
+  --mat-sys-tertiary-container: rgb(37 75 92);
+  --mat-sys-on-tertiary-container: rgb(194 232 253);
+  --mat-sys-error: rgb(255 180 171);
+  --mat-sys-on-error: rgb(105 0 5);
+  --mat-sys-error-container: rgb(147 0 10);
+  --mat-sys-on-error-container: rgb(255 218 214);
+  --mat-sys-background: rgb(15 21 18);
+  --mat-sys-on-background: rgb(222 228 223);
+  --mat-sys-surface: rgb(15 21 18);
+  --mat-sys-on-surface: rgb(222 228 223);
+  --mat-sys-surface-variant: rgb(64 73 68);
+  --mat-sys-on-surface-variant: rgb(191 201 194);
+  --mat-sys-outline: rgb(137 147 141);
+  --mat-sys-outline-variant: rgb(64 73 68);
+  --mat-sys-shadow: rgb(0 0 0);
+  --mat-sys-scrim: rgb(0 0 0);
+  --mat-sys-inverse-surface: rgb(222 228 223);
+  --mat-sys-inverse-on-surface: rgb(44 50 46);
+  --mat-sys-inverse-primary: rgb(27 107 81);
+  --mat-sys-primary-fixed: rgb(166 242 209);
+  --mat-sys-on-primary-fixed: rgb(0 33 22);
+  --mat-sys-primary-fixed-dim: rgb(139 214 182);
+  --mat-sys-on-primary-fixed-variant: rgb(0 81 59);
+  --mat-sys-secondary-fixed: rgb(207 233 218);
+  --mat-sys-on-secondary-fixed: rgb(9 32 23);
+  --mat-sys-secondary-fixed-dim: rgb(179 204 191);
+  --mat-sys-on-secondary-fixed-variant: rgb(53 75 65);
+  --mat-sys-tertiary-fixed: rgb(194 232 253);
+  --mat-sys-on-tertiary-fixed: rgb(0 31 42);
+  --mat-sys-tertiary-fixed-dim: rgb(166 204 224);
+  --mat-sys-on-tertiary-fixed-variant: rgb(37 75 92);
+  --mat-sys-surface-dim: rgb(15 21 18);
+  --mat-sys-surface-bright: rgb(52 59 55);
+  --mat-sys-surface-container-lowest: rgb(10 15 13);
+  --mat-sys-surface-container-low: rgb(23 29 26);
+  --mat-sys-surface-container: rgb(27 33 30);
+  --mat-sys-surface-container-high: rgb(37 43 40);
+  --mat-sys-surface-container-highest: rgb(48 54 51);
+}
