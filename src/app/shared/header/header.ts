@@ -40,7 +40,7 @@ export class Header {
     } else if (saved === 'light') {
       isDark = false;
     } else {
-      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
     }
 
     this.isDark.set(isDark);
