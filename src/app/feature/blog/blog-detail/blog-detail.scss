@@ -1,8 +1,10 @@
+@use 'variables' as vars;
+
 .blog-detail {
   max-width: 900px;
   margin: 0 auto;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: vars.$border-radius-lg;
   background-color: var(--mat-sys-surface-container);
   color: var(--mat-sys-on-surface);
 }
@@ -15,16 +17,23 @@
 }
 
 .blog-content {
-  padding: 32px;
-}
+  padding: vars.$spacing-xl;
 
-.blog-content h1 {
-  margin: 0 0 12px;
-  font-size: 2rem;
-}
+  h1 {
+    margin: 0 0 vars.$spacing-sm;
+    font-size: 2rem;
+    color: var(--mat-sys-on-surface);
+  }
 
-.blog-meta {
-  margin-bottom: 24px;
-  color: var(--mat-sys-on-surface-variant);
-  font-weight: 500;
+  .blog-meta {
+    margin-bottom: vars.$spacing-lg;
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  p {
+    line-height: 1.7;
+    color: var(--mat-sys-on-surface);
+  }
 }

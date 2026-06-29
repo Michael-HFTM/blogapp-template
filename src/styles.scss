@@ -1,48 +1,35 @@
 @use '@angular/material' as mat;
-@use './app/theme-palettes' as palettes;
+@use 'theme' as t;
 
-// ── Light theme ──
-$light-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: palettes.$primary-palette,
-      tertiary: palettes.$tertiary-palette,
-      use-system-variables: true,
-    ),
-    typography: (
-      use-system-variables: true,
-    ),
-  )
-);
-
-// ── Dark theme ──
-$dark-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: palettes.$primary-palette,
-      tertiary: palettes.$tertiary-palette,
-      use-system-variables: true,
-    ),
-    typography: (
-      use-system-variables: true,
-    ),
-  )
-);
-
-// ── Apply themes ──
+// ── Default: light theme ──
 html {
-  @include mat.all-component-themes($light-theme);
-  @include mat.system-level-colors($light-theme);
-  @include mat.system-level-typography($light-theme);
+  @include mat.all-component-themes(t.$light-theme);
+  @include mat.system-level-colors(t.$light-theme);
+  @include mat.system-level-typography(t.$light-theme);
   color-scheme: light;
 }
 
+// ── System preference: dark mode (no explicit user choice yet) ──
+@media (prefers-color-scheme: dark) {
+  html:not(.light-theme) {
+    @include mat.all-component-colors(t.$dark-theme);
+    @include mat.system-level-colors(t.$dark-theme);
+    color-scheme: dark;
+  }
+}
+
+// ── Explicit dark mode ──
 html.dark-theme {
-  @include mat.all-component-colors($dark-theme);
-  @include mat.system-level-colors($dark-theme);
+  @include mat.all-component-colors(t.$dark-theme);
+  @include mat.system-level-colors(t.$dark-theme);
   color-scheme: dark;
+}
+
+// ── Explicit light mode (overrides system dark preference) ──
+html.light-theme {
+  @include mat.all-component-colors(t.$light-theme);
+  @include mat.system-level-colors(t.$light-theme);
+  color-scheme: light;
 }
 
 html,

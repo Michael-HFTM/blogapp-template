@@ -1,0 +1,27 @@
+@use 'variables' as vars;
+
+// Adds a subtle shadow with a lift effect on hover
+@mixin card-shadow {
+  transition:
+    transform vars.$transition-default,
+    box-shadow vars.$transition-default;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+// Centers content both horizontally and vertically
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Responsive CSS Grid that reflows based on a minimum column width
+@mixin responsive-grid($min-width: 280px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: vars.$spacing-lg;
+}

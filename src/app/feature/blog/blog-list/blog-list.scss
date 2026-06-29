@@ -1,8 +1,9 @@
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
 .blog-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 24px;
+  @include mix.responsive-grid(280px);
+  padding: vars.$spacing-lg;
   max-width: 1200px;
   margin: 0 auto;
 }

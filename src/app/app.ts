@@ -24,8 +24,40 @@ export class App {
   protected readonly title = 'HFTM Web Applications (IN353)';
   protected readonly isDark = signal(false);
 
-  toggleTheme() {
+  constructor() {
+    this.initTheme();
+  }
+
+  private initTheme(): void {
+    const saved = localStorage.getItem('theme');
+    let isDark: boolean;
+
+    if (saved === 'dark') {
+      isDark = true;
+    } else if (saved === 'light') {
+      isDark = false;
+    } else {
+      // No saved preference — respect OS setting
+      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    this.isDark.set(isDark);
+
+    if (isDark) {
+      this.document.documentElement.classList.add('dark-theme');
+    } else if (saved === 'light') {
+      // User explicitly chose light — add class to override system dark preference
+      this.document.documentElement.classList.add('light-theme');
+    }
+    // No saved preference + system is light → no class needed, CSS default handles it
+  }
+
+  toggleTheme(): void {
     this.isDark.update((dark) => !dark);
-    this.document.documentElement.classList.toggle('dark-theme', this.isDark());
+    const isDark = this.isDark();
+
+    this.document.documentElement.classList.toggle('dark-theme', isDark);
+    this.document.documentElement.classList.toggle('light-theme', !isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }
 }
