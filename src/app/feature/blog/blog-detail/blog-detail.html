@@ -1,17 +1,34 @@
 @if (blog(); as blog) {
   <article class="blog-detail">
-    @if (blog.headerImageUrl) {
-      <img class="blog-image" [src]="blog.headerImageUrl" [alt]="blog.title" />
-    }
+    <div class="blog-hero" [class.blog-hero--no-image]="!blog.headerImageUrl">
+      @if (blog.headerImageUrl) {
+        <img class="blog-image" [src]="blog.headerImageUrl" [alt]="blog.title" />
+      }
+      <div class="blog-hero-overlay">
+        <h1>{{ blog.title }}</h1>
+        <div class="blog-meta">
+          <span class="meta-chip">
+            <mat-icon>person</mat-icon>
+            {{ blog.author }}
+          </span>
+          <span class="meta-chip">
+            <mat-icon>calendar_today</mat-icon>
+            {{ blog.createdAt | date: 'dd. MMM yyyy' }}
+          </span>
+          <span class="meta-chip">
+            <mat-icon>favorite</mat-icon>
+            {{ blog.likes }}
+          </span>
+          <span class="meta-chip">
+            <mat-icon>chat_bubble_outline</mat-icon>
+            {{ blog.comments }}
+          </span>
+        </div>
+      </div>
+    </div>
 
     <div class="blog-content">
-      <h1>{{ blog.title }}</h1>
-
-      <p class="blog-meta">Von {{ blog.author }}</p>
-
-      <p>
-        {{ blog.contentPreview }}
-      </p>
+      <p>{{ blog.contentPreview }}</p>
     </div>
   </article>
 } @else {

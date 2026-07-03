@@ -1,20 +1,9 @@
-.spacer {
-  flex: 1 1 auto;
-}
-
-nav {
-  display: flex;
-  gap: 8px;
-}
-
-.active-link {
-  background: rgb(184 184 184 / 0.22);
-}
+@use 'variables' as vars;
 
 .content {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: vars.$spacing-xl auto;
+  padding: 0 vars.$spacing-md;
 }
 
 .welcome-card {
@@ -23,16 +12,18 @@ nav {
   }
 
   code {
-    background: rgba(0, 0, 0, 0.06);
-    padding: 2px 6px;
-    border-radius: 4px;
+    background-color: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-on-surface);
+    padding: vars.$spacing-xs vars.$spacing-sm;
+    border-radius: vars.$border-radius-sm;
     font-size: 0.9em;
   }
 
   pre {
-    background: rgba(0, 0, 0, 0.06);
-    padding: 1rem;
-    border-radius: 8px;
+    background-color: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-on-surface);
+    padding: vars.$spacing-md;
+    border-radius: vars.$border-radius-md;
     overflow-x: auto;
 
     code {

@@ -29,7 +29,10 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            }
           },
           "configurations": {
             "production": {
@@ -86,7 +89,7 @@
         },
         "test": {
           "builder": "@angular/build:unit-test",
-           "options": {
+          "options": {
             "setupFiles": ["src/test-setup.ts"]
           }
         },

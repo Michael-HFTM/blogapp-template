@@ -1,19 +1,51 @@
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
 .blog-card {
   max-width: 400px;
-}
-
-img[mat-card-image] {
-  width: 100%;
-  aspect-ratio: 2 / 1;
-  object-fit: cover;
-}
-
-mat-card {
   height: 100%;
-}
+  cursor: pointer;
+  border-radius: vars.$border-radius-lg !important;
+  @include mix.card-shadow;
 
-.like-count {
-  margin-right: 8px;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
+  img[mat-card-image] {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+  }
+
+  mat-card-header {
+    padding-top: vars.$spacing-md;
+    padding-bottom: vars.$spacing-sm;
+  }
+
+  mat-card-content {
+    padding-top: vars.$spacing-sm;
+    color: var(--mat-sys-on-surface-variant);
+
+    p {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0;
+    }
+  }
+
+  .author-avatar {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    border-radius: 50%;
+    padding: vars.$spacing-xs;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    @include mix.flex-center;
+  }
+
+  .like-count {
+    margin-right: vars.$spacing-sm;
+    font-size: 14px;
+    color: var(--mat-sys-on-surface-variant);
+  }
 }

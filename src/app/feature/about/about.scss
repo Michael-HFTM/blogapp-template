@@ -1,6 +1,106 @@
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
 .about-page {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 32px;
-  line-height: 1.7;
+  padding: vars.$spacing-xl vars.$spacing-md;
+}
+
+.about-card {
+  overflow: hidden;
+}
+
+// ── Profile hero ──
+.about-hero {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-lg;
+  padding: vars.$spacing-xl;
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary-container),
+    var(--mat-sys-tertiary-container)
+  );
+}
+
+.about-avatar {
+  @include mix.flex-center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.about-identity {
+  h1 {
+    margin: 0 0 vars.$spacing-xs;
+    font-size: 1.5rem;
+    color: var(--mat-sys-on-primary-container);
+  }
+
+  .about-role {
+    margin: 0;
+    color: var(--mat-sys-on-primary-container);
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+}
+
+// ── Info rows ──
+.about-info {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-md;
+  padding: vars.$spacing-lg !important;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: vars.$spacing-md;
+
+  > mat-icon {
+    color: var(--mat-sys-primary);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .info-label {
+    font-size: 0.72rem;
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  .info-value {
+    color: var(--mat-sys-on-surface);
+    font-size: 0.95rem;
+  }
+}
+
+// ── Description ──
+.about-description {
+  padding: vars.$spacing-lg !important;
+
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    line-height: 1.7;
+  }
 }

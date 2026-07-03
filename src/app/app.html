@@ -1,19 +1,4 @@
-<mat-toolbar color="primary">
-  <span>{{ title }}</span>
-  <span class="spacer"></span>
-
-  <nav>
-    <a
-      mat-button
-      routerLink="/"
-      routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      Blogs
-    </a>
-    <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
-  </nav>
-</mat-toolbar>
+<app-header />
 
 <main class="content">
   <router-outlet />

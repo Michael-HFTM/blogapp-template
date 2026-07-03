@@ -1,0 +1,48 @@
+@use '../../../variables' as vars;
+
+.app-toolbar {
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary-container),
+    var(--mat-sys-tertiary-container)
+  );
+  // Background is a primary-container gradient → on-primary-container is the correct text color.
+  // Explicitly set the Material component tokens so buttons and icons match the title.
+  color: var(--mat-sys-on-primary-container);
+  --mat-toolbar-container-text-color: var(--mat-sys-on-primary-container);
+  --mat-text-button-label-text-color: var(--mat-sys-on-primary-container);
+  --mdc-text-button-label-text-color: var(--mat-sys-on-primary-container);
+  --mat-icon-button-icon-color: var(--mat-sys-on-primary-container);
+  --mdc-icon-button-icon-color: var(--mat-sys-on-primary-container);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-title {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+nav {
+  display: flex;
+  gap: vars.$spacing-xs;
+  align-items: center;
+
+  // Ripple/hover on the gradient background
+  --mat-text-button-state-layer-color: var(--mat-sys-on-primary);
+}
+
+nav a.active-link {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  border-radius: 9999px;
+}
+
+.active-menu-item {
+  --mat-menu-item-label-text-color: var(--mat-sys-on-secondary-container);
+  background-color: var(--mat-sys-secondary-container);
+}

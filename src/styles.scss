@@ -1,19 +1,30 @@
 @use '@angular/material' as mat;
+@use 'theme' as t;
+@use 'theme-colors' as colors;
 
-// ── Light theme (azure primary) ──
-$light-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-  )
-);
-
-// ── Apply light theme as default on <html> ──
+// Component structure + typography initialized once with light theme.
+// With use-system-variables: true, all component colors reference --mat-sys-* CSS variables,
+// so switching themes only requires overriding those variables — no re-theming needed.
 html {
-  @include mat.all-component-themes($light-theme);
+  @include mat.all-component-themes(t.$light-theme);
+  @include mat.system-level-colors(t.$light-theme);
+  @include mat.system-level-typography(t.$light-theme);
+  @include colors.light;
+}
+
+// System dark preference (no explicit user choice yet)
+@media (prefers-color-scheme: dark) {
+  html:not(.light-theme) {
+    @include colors.dark;
+  }
+}
+
+// Explicit theme overrides
+html.dark-theme {
+  @include colors.dark;
+}
+html.light-theme {
+  @include colors.light;
 }
 
 html,
@@ -24,4 +35,6 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }
