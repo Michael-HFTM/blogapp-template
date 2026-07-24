@@ -39,7 +39,7 @@ export class BlogService {
   }
 
   public async like(id: number): Promise<void> {
-    await firstValueFrom(this.http.post(`${environment.api}/entries/${id}/like-info`, {}));
+    await firstValueFrom(this.http.put(`${environment.api}/entries/${id}/like-info`, {}));
   }
 
   public async createBlog(blog: Blog): Promise<Blog | undefined> {
@@ -53,7 +53,7 @@ export class BlogService {
 
   public async updateBlog(id: number, blog: Blog): Promise<Blog | undefined> {
     try {
-      return await firstValueFrom(this.http.put<Blog>(`${environment.api}/entries/${id}`, blog));
+      return await firstValueFrom(this.http.patch<Blog>(`${environment.api}/entries/${id}`, blog));
     } catch (error) {
       console.error(`Failed to update blog ${id}`, error);
       return undefined;
