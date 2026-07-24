@@ -23,3 +23,20 @@ export const BlogResponseSchema = z.object({
   maxPageSize: z.number(),
 });
 export type BlogResponse = z.infer<typeof BlogResponseSchema>;
+
+export const BlogCommentSchema = z.object({
+  id: z.number(),
+  author: z.string(),
+  content: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export type BlogComment = z.infer<typeof BlogCommentSchema>;
+
+// GET /entries/:id returns the full content and the comment list instead of
+// the preview/comment-count fields used by the GET /entries list response.
+export const BlogDetailSchema = BlogSchema.omit({ contentPreview: true, comments: true }).extend({
+  content: z.string(),
+  comments: z.array(BlogCommentSchema),
+});
+export type BlogDetail = z.infer<typeof BlogDetailSchema>;
