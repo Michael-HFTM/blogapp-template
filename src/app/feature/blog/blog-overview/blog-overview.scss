@@ -1,0 +1,28 @@
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
+.blog-list-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl vars.$spacing-lg vars.$spacing-sm;
+
+  h1 {
+    margin: 0 0 vars.$spacing-xs;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--mat-sys-on-surface);
+  }
+
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.95rem;
+  }
+}
+
+.blog-list {
+  @include mix.responsive-grid(280px);
+  padding: vars.$spacing-md vars.$spacing-lg vars.$spacing-xl;
+  max-width: 1200px;
+  margin: 0 auto;
+}
