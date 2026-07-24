@@ -17,8 +17,9 @@ export type Blog = z.infer<typeof BlogSchema>;
 
 export const BlogResponseSchema = z.object({
   data: z.array(BlogSchema),
-  total: z.number(),
-  page: z.number(),
-  limit: z.number(),
+  totalCount: z.number(),
+  pageIndex: z.number(),
+  pageSize: z.number(),
+  maxPageSize: z.number(),
 });
 export type BlogResponse = z.infer<typeof BlogResponseSchema>;

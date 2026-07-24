@@ -14,12 +14,12 @@ export class BlogService {
       const result = BlogResponseSchema.safeParse(response);
       if (!result.success) {
         console.error('Invalid blog list response', result.error);
-        return { data: [], total: 0, page: 0, limit: 0 };
+        return { data: [], totalCount: 0, pageIndex: 0, pageSize: 0, maxPageSize: 0 };
       }
       return result.data;
     } catch (error) {
       console.error('Failed to load blogs', error);
-      return { data: [], total: 0, page: 0, limit: 0 };
+      return { data: [], totalCount: 0, pageIndex: 0, pageSize: 0, maxPageSize: 0 };
     }
   }
 
