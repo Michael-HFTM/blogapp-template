@@ -3,6 +3,10 @@
   <p>Artikel aus dem HFTM Web Applications Kurs</p>
 </header>
 
+@if (loading()) {
+  <p class="loading-indicator">Laden...</p>
+}
+
 <section class="blog-list">
   @for (blog of blogs(); track blog.id) {
     <app-blog-card [blog]="blog" (like)="onLiked($event)"></app-blog-card>
