@@ -1,5 +1,5 @@
 import { inject, Service } from '@angular/core';
-import { Blog, BlogResponse } from './blog.model';
+import { Blog, BlogResponse, BlogResponseSchema, BlogSchema } from './blog.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -9,11 +9,33 @@ export class BlogService {
   private http = inject(HttpClient);
 
   public async getBlogs(): Promise<BlogResponse> {
-    return firstValueFrom(this.http.get<BlogResponse>(`${environment.api}/entries`));
+    try {
+      const response = await firstValueFrom(this.http.get(`${environment.api}/entries`));
+      const result = BlogResponseSchema.safeParse(response);
+      if (!result.success) {
+        console.error('Invalid blog list response', result.error);
+        return { data: [], total: 0, page: 0, limit: 0 };
+      }
+      return result.data;
+    } catch (error) {
+      console.error('Failed to load blogs', error);
+      return { data: [], total: 0, page: 0, limit: 0 };
+    }
   }
 
   public async getById(id: number): Promise<Blog | undefined> {
-    return firstValueFrom(this.http.get<Blog>(`${environment.api}/entries/${id}`));
+    try {
+      const response = await firstValueFrom(this.http.get(`${environment.api}/entries/${id}`));
+      const result = BlogSchema.safeParse(response);
+      if (!result.success) {
+        console.error(`Invalid blog response for id ${id}`, result.error);
+        return undefined;
+      }
+      return result.data;
+    } catch (error) {
+      console.error(`Failed to load blog ${id}`, error);
+      return undefined;
+    }
   }
 
   public async like(id: number): Promise<void> {
