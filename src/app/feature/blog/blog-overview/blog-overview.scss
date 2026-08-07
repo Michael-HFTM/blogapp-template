@@ -18,6 +18,19 @@
     color: var(--mat-sys-on-surface-variant);
     font-size: 0.95rem;
   }
+
+  .subtitle-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: vars.$spacing-md;
+  }
+
+  .loading-indicator {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-style: italic;
+  }
 }
 
 .blog-list {

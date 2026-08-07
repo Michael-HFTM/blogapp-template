@@ -21,14 +21,14 @@
           </span>
           <span class="meta-chip">
             <mat-icon>chat_bubble_outline</mat-icon>
-            {{ blog.comments }}
+            {{ blog.comments.length }}
           </span>
         </div>
       </div>
     </div>
 
     <div class="blog-content">
-      <p>{{ blog.contentPreview }}</p>
+      <p>{{ blog.content }}</p>
     </div>
   </article>
 } @else {

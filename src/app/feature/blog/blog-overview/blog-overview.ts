@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { BlogCard } from '../../../shared/blog-card/blog-card';
 import { BlogService } from '../blog.service';
 import { Blog } from '../blog.model';
@@ -12,19 +12,15 @@ import { Blog } from '../blog.model';
 export class BlogOverview {
   private readonly blogService = inject(BlogService);
 
-  protected readonly blogs = signal<Blog[]>(this.blogService.getBlogs());
+  protected readonly blogs = input.required<Blog[]>();
+  protected readonly loading = signal(false);
 
-  handleLike(blogId: number): void {
-    this.blogs.update((blogs) =>
-      blogs.map((blog) => (blog.id === blogId ? this.toggleLike(blog) : blog)),
-    );
-  }
-
-  private toggleLike(blog: Blog): Blog {
-    return {
-      ...blog,
-      likedByMe: !blog.likedByMe,
-      likes: blog.likedByMe ? blog.likes - 1 : blog.likes + 1,
-    };
+  async onLiked(blogId: number): Promise<void> {
+    this.loading.set(true);
+    try {
+      await this.blogService.like(blogId);
+    } finally {
+      this.loading.set(false);
+    }
   }
 }
