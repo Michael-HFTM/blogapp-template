@@ -1,13 +1,13 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthorFilter } from '../author-filter/author-filter';
-import { BlogCard } from '../../../shared/blog-card/blog-card';
+import { BlogList } from '../blog-list/blog-list';
 import { BlogService } from '../blog.service';
 import { BlogStateService } from '../blog-state/blog-state.service';
 
 @Component({
   selector: 'app-blog-overview',
-  imports: [BlogCard, MatProgressSpinnerModule, AuthorFilter],
+  imports: [MatProgressSpinnerModule, AuthorFilter, BlogList],
   templateUrl: './blog-overview.html',
   styleUrl: './blog-overview.scss',
 })
@@ -16,6 +16,10 @@ export class BlogOverview implements OnInit {
   protected readonly state = inject(BlogStateService);
 
   protected readonly likeLoading = signal(false);
+
+  protected readonly noResults = computed(
+    () => this.state.filteredBlogs().length === 0 && !this.state.loading() && !this.state.error(),
+  );
 
   ngOnInit(): void {
     this.state.loadBlogs();

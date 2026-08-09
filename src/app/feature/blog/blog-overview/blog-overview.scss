@@ -1,5 +1,4 @@
 @use 'variables' as vars;
-@use 'mixins' as mix;
 
 .blog-list-header {
   max-width: 1200px;
@@ -36,11 +35,4 @@
   margin: 0 auto;
   padding: 0 vars.$spacing-lg;
   color: var(--mat-sys-error);
-}
-
-.blog-list {
-  @include mix.responsive-grid(280px);
-  padding: vars.$spacing-md vars.$spacing-lg vars.$spacing-xl;
-  max-width: 1200px;
-  margin: 0 auto;
 }

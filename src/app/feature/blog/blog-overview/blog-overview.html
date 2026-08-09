@@ -21,12 +21,8 @@
   <p class="error-message">{{ error }}</p>
 }
 
-<section class="blog-list">
-  @for (blog of state.filteredBlogs(); track blog.id) {
-    <app-blog-card [blog]="blog" (like)="onLiked($event)"></app-blog-card>
-  } @empty {
-    @if (!state.loading() && !state.error()) {
-      <p>No blogs found.</p>
-    }
-  }
-</section>
+<app-blog-list
+  [blogs]="state.filteredBlogs()"
+  [showEmpty]="noResults()"
+  (like)="onLiked($event)"
+></app-blog-list>
