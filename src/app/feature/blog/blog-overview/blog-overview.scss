@@ -29,6 +29,11 @@
   .loading-indicator {
     flex-shrink: 0;
   }
+
+  .author-filter {
+    width: 220px;
+    margin-top: vars.$spacing-md;
+  }
 }
 
 .error-message {

@@ -10,6 +10,14 @@
       ></mat-progress-spinner>
     }
   </p>
+  <mat-form-field class="author-filter" appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Autor</mat-label>
+    <mat-select [value]="state.selectedAuthor()" (selectionChange)="onAuthorChange($event.value)">
+      @for (author of state.authors(); track author) {
+        <mat-option [value]="author">{{ author }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 </header>
 
 @if (state.error(); as error) {
@@ -17,7 +25,7 @@
 }
 
 <section class="blog-list">
-  @for (blog of state.blogs(); track blog.id) {
+  @for (blog of state.filteredBlogs(); track blog.id) {
     <app-blog-card [blog]="blog" (like)="onLiked($event)"></app-blog-card>
   } @empty {
     @if (!state.loading() && !state.error()) {
