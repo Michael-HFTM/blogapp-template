@@ -1,13 +1,11 @@
 import { Routes } from '@angular/router';
 import { BlogOverview } from './feature/blog/blog-overview/blog-overview';
 import { blogDetailResolver } from './feature/blog/blog-detail/blog-detail.resolver';
-import { entriesResolver } from './feature/blog/blog-overview/entries-resolver';
 
 export const routes: Routes = [
   {
     path: '',
     component: BlogOverview,
-    resolve: { blogs: entriesResolver },
   },
   {
     path: 'blog/:id',

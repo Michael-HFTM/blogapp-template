@@ -1,17 +1,23 @@
 <header class="blog-list-header">
   <h1>Blog</h1>
   <p class="subtitle-row">
-    <span>Artikel aus dem HFTM Web Applications Kurs</span>
-    @if (loading()) {
+    <span>Artikel aus dem HFTM Web Applications Kurs ({{ state.blogCount() }})</span>
+    @if (state.loading()) {
       <span class="loading-indicator">Laden...</span>
     }
   </p>
 </header>
 
+@if (state.error(); as error) {
+  <p class="error-message">{{ error }}</p>
+}
+
 <section class="blog-list">
-  @for (blog of blogs(); track blog.id) {
+  @for (blog of state.blogs(); track blog.id) {
     <app-blog-card [blog]="blog" (like)="onLiked($event)"></app-blog-card>
   } @empty {
-    <p>No blogs found.</p>
+    @if (!state.loading() && !state.error()) {
+      <p>No blogs found.</p>
+    }
   }
 </section>
