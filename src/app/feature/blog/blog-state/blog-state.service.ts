@@ -1,4 +1,4 @@
-import { computed, inject, Service, signal } from '@angular/core';
+import { computed, effect, inject, Service, signal } from '@angular/core';
 import { Blog, BlogResponseSchema } from '../blog.model';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -8,11 +8,18 @@ import { HttpClient } from '@angular/common/http';
 export class BlogStateService {
   private http = inject(HttpClient);
 
+  constructor() {
+    effect(() => {
+      const selectedAuthor = this.selectedAuthor();
+      localStorage.setItem('selectedAuthor', selectedAuthor);
+    });
+  }
+
   readonly #state = signal<BlogState>({
     blogs: [],
     loading: false,
     error: null,
-    selectedAuthor: 'all',
+    selectedAuthor: localStorage.getItem('selectedAuthor') ?? 'all',
   });
 
   /** Selectors */
