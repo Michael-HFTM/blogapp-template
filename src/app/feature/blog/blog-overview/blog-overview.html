@@ -3,7 +3,11 @@
   <p class="subtitle-row">
     <span>Artikel aus dem HFTM Web Applications Kurs ({{ state.blogCount() }})</span>
     @if (state.loading()) {
-      <span class="loading-indicator">Laden...</span>
+      <mat-progress-spinner
+        class="loading-indicator"
+        mode="indeterminate"
+        diameter="20"
+      ></mat-progress-spinner>
     }
   </p>
 </header>
