@@ -1,14 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { AuthorFilter } from '../author-filter/author-filter';
 import { BlogCard } from '../../../shared/blog-card/blog-card';
 import { BlogService } from '../blog.service';
 import { BlogStateService } from '../blog-state/blog-state.service';
 
 @Component({
   selector: 'app-blog-overview',
-  imports: [BlogCard, MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule],
+  imports: [BlogCard, MatProgressSpinnerModule, AuthorFilter],
   templateUrl: './blog-overview.html',
   styleUrl: './blog-overview.scss',
 })

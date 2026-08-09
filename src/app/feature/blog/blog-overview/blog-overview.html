@@ -10,14 +10,11 @@
       ></mat-progress-spinner>
     }
   </p>
-  <mat-form-field class="author-filter" appearance="outline" subscriptSizing="dynamic">
-    <mat-label>Autor</mat-label>
-    <mat-select [value]="state.selectedAuthor()" (selectionChange)="onAuthorChange($event.value)">
-      @for (author of state.authors(); track author) {
-        <mat-option [value]="author">{{ author }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+  <app-author-filter
+    [authors]="state.authors()"
+    [selected]="state.selectedAuthor()"
+    (authorChange)="onAuthorChange($event)"
+  ></app-author-filter>
 </header>
 
 @if (state.error(); as error) {

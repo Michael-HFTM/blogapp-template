@@ -1,0 +1,8 @@
+<label class="author-filter">
+  <span class="author-filter-label">Autor</span>
+  <select [value]="selected()" (change)="onChange($event)">
+    @for (author of authors(); track author) {
+      <option [value]="author">{{ author }}</option>
+    }
+  </select>
+</label>

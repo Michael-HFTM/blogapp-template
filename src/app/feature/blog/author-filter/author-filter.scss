@@ -1,0 +1,36 @@
+@use 'variables' as vars;
+
+.author-filter {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-xs;
+  width: 220px;
+  margin-top: vars.$spacing-md;
+
+  .author-filter-label {
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  select {
+    height: 40px;
+    padding: 0 vars.$spacing-sm;
+    border-radius: vars.$border-radius-sm;
+    border: 1px solid var(--mat-sys-outline);
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color vars.$transition-default;
+
+    &:hover {
+      border-color: var(--mat-sys-on-surface);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mat-sys-primary);
+      outline-offset: 1px;
+    }
+  }
+}
