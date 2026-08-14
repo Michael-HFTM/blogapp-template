@@ -1,36 +1,24 @@
-import { computed, Service, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
-interface UserInfo {
+export interface UserInfo {
   preferred_username: string;
   email: string;
   name: string;
   roles: string[];
 }
 
-interface AuthState {
-  isAuthenticated: boolean;
-  user: UserInfo | null;
-  loading: boolean;
-}
-
-const initialState: AuthState = {
-  isAuthenticated: false,
-  user: null,
-  loading: true,
-};
-
-@Service()
+@Injectable({ providedIn: 'root' })
 export class AuthStore {
-  readonly #state = signal<AuthState>(initialState);
+  readonly isAuthenticated = signal(false);
+  readonly user = signal<UserInfo | null>(null);
+  /** Starts as `true`: the session check is already running when the app boots. */
+  readonly loading = signal(true);
+
+  readonly roles = computed(() => this.user()?.roles ?? []);
 
   /** Resolves once the initial session check finished — awaited by the auth guard. */
   readonly ready: Promise<void>;
-
-  isAuthenticated = computed(() => this.#state().isAuthenticated);
-  userData = computed(() => this.#state().user);
-  loading = computed(() => this.#state().loading);
-  roles = computed(() => this.#state().user?.roles ?? null);
 
   constructor() {
     this.ready = this.checkSession();
@@ -38,7 +26,7 @@ export class AuthStore {
 
   async checkSession(): Promise<void> {
     if (!environment.authEnabled) {
-      this.#state.set({ ...initialState, loading: false });
+      this.#reset();
       return;
     }
 
@@ -47,17 +35,21 @@ export class AuthStore {
         credentials: 'include',
       });
       const data = await res.json();
-      this.#state.set({
-        isAuthenticated: data.isAuthenticated,
-        user: data.user,
-        loading: false,
-      });
+      this.isAuthenticated.set(data.isAuthenticated ?? false);
+      this.user.set(data.user ?? null);
     } catch {
-      this.#state.set({ ...initialState, loading: false });
+      this.isAuthenticated.set(false);
+      this.user.set(null);
+    } finally {
+      this.loading.set(false);
     }
   }
 
-  /** Leaves the app: the BFF ends the session, Keycloak ends its SSO session. */
+  /**
+   * Leaves the app: the BFF ends the session, then Keycloak ends its SSO session.
+   * There is deliberately no `login()` counterpart — signing in is a full browser
+   * navigation to the BFF (see the login page), not a fetch.
+   */
   async logout(): Promise<void> {
     try {
       const res = await fetch(`${environment.bffUrl}/auth/logout`, {
@@ -66,9 +58,17 @@ export class AuthStore {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
       const { logoutUrl } = await res.json();
+      this.#reset();
       window.location.href = logoutUrl;
     } catch {
+      this.#reset();
       window.location.href = '/';
     }
+  }
+
+  #reset(): void {
+    this.isAuthenticated.set(false);
+    this.user.set(null);
+    this.loading.set(false);
   }
 }
