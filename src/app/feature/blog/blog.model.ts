@@ -15,6 +15,14 @@ export const BlogSchema = z.object({
 });
 export type Blog = z.infer<typeof BlogSchema>;
 
+// POST /entries only carries what the author types; the server owns id, author,
+// counters and timestamps.
+export const CreateBlogSchema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+});
+export type CreateBlog = z.infer<typeof CreateBlogSchema>;
+
 export const BlogResponseSchema = z.object({
   data: z.array(BlogSchema),
   totalCount: z.number(),

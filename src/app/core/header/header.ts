@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Breakpoints } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -28,6 +28,8 @@ export class Header {
   protected readonly authStore = inject(AuthStore);
 
   protected readonly authEnabled = environment.authEnabled;
+  /** Mirrors the roleGuard on /blog/create — the guard stays the actual gate. */
+  protected readonly canCreateBlog = computed(() => this.authStore.roles().includes('user'));
   protected readonly isDark = signal(false);
   protected readonly isMobile = breakpointSignal(Breakpoints.Handset);
 
