@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { BlogOverview } from './feature/blog/blog-overview/blog-overview';
 import { blogDetailResolver } from './feature/blog/blog-detail/blog-detail.resolver';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,12 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./feature/login/login'),
+  },
+  {
+    path: 'profile',
+    // canMatch, not canActivate: an anonymous visitor never downloads the chunk.
+    canMatch: [authGuard],
+    loadComponent: () => import('./feature/profile/profile'),
   },
   {
     path: '**',

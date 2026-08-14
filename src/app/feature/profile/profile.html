@@ -1,0 +1,27 @@
+<section class="profile-page">
+  <mat-card class="profile-card" appearance="outlined">
+    <mat-card-content class="profile-content">
+      <mat-icon class="profile-icon">account_circle</mat-icon>
+
+      @if (authStore.user(); as user) {
+        <h1>{{ user.name }}</h1>
+
+        <dl class="profile-details">
+          <dt>Benutzername</dt>
+          <dd data-testid="profile-username">{{ user.preferred_username }}</dd>
+
+          <dt>E-Mail</dt>
+          <dd data-testid="profile-email">{{ user.email }}</dd>
+        </dl>
+
+        @if (authStore.roles().length) {
+          <ul class="profile-roles" aria-label="Rollen">
+            @for (role of authStore.roles(); track role) {
+              <li>{{ role }}</li>
+            }
+          </ul>
+        }
+      }
+    </mat-card-content>
+  </mat-card>
+</section>

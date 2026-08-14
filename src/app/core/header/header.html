@@ -22,9 +22,12 @@
 
   @if (authEnabled) {
     @if (authStore.isAuthenticated()) {
-      <button mat-button (click)="logout()">
-        <mat-icon>logout</mat-icon>
+      <a mat-button routerLink="/profile" routerLinkActive="active-link">
+        <mat-icon>account_circle</mat-icon>
         {{ authStore.user()?.preferred_username }}
+      </a>
+      <button mat-icon-button (click)="logout()" aria-label="Abmelden">
+        <mat-icon>logout</mat-icon>
       </button>
     } @else {
       <a mat-button routerLink="/login">

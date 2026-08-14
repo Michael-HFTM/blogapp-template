@@ -13,14 +13,15 @@ export const authGuard: CanMatchFn = async (_route, segments: UrlSegment[]) => {
   }
 
   const authStore = inject(AuthStore);
+
+  // Awaiting the store's promise instead of polling loading(): the session check
+  // is already in flight from the constructor, this just joins it.
   await authStore.ready;
 
-  if (authStore.isAuthenticated() && authStore.roles().includes('user')) {
+  if (authStore.isAuthenticated()) {
     return true;
   }
 
   const returnUrl = '/' + segments.map((s) => s.path).join('/');
   return router.createUrlTree(['/login'], { queryParams: { returnUrl } });
 };
-
-export default authGuard;
