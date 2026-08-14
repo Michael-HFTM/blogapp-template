@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DOCUMENT } from '@angular/common';
 import { breakpointSignal } from '../utils/breakpoint-signal';
+import { environment } from '../../../environments/environment';
+import { AuthStore } from '../auth/auth.store';
 
 @Component({
   selector: 'app-header',
@@ -23,12 +25,19 @@ import { breakpointSignal } from '../utils/breakpoint-signal';
 })
 export class Header {
   private readonly document = inject(DOCUMENT);
+  protected readonly authStore = inject(AuthStore);
 
+  protected readonly authEnabled = environment.authEnabled;
   protected readonly isDark = signal(false);
   protected readonly isMobile = breakpointSignal(Breakpoints.Handset);
 
   constructor() {
     this.initTheme();
+  }
+
+  logout(): void {
+    // Navigates away to Keycloak's end-session endpoint, so no router call here.
+    void this.authStore.logout();
   }
 
   private initTheme(): void {

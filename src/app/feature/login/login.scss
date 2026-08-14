@@ -1,0 +1,33 @@
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
+.login-page {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl vars.$spacing-md;
+}
+
+.login-content {
+  @include mix.flex-center;
+  flex-direction: column;
+  gap: vars.$spacing-md;
+  padding: vars.$spacing-xl !important;
+  text-align: center;
+}
+
+.login-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--mat-sys-primary);
+}
+
+.login-hint {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.error-message {
+  color: var(--mat-sys-error);
+  font-size: 0.9rem;
+}

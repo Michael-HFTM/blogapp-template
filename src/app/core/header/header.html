@@ -20,6 +20,20 @@
     <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
   </button>
 
+  @if (authEnabled) {
+    @if (authStore.isAuthenticated()) {
+      <button mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        {{ authStore.userData()?.preferred_username }}
+      </button>
+    } @else {
+      <a mat-button routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Anmelden
+      </a>
+    }
+  }
+
   @if (isMobile()) {
     <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Navigation menu">
       <mat-icon>menu</mat-icon>

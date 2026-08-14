@@ -1,0 +1,23 @@
+<section class="login-page">
+  <mat-card class="login-card" appearance="outlined">
+    <mat-card-content class="login-content">
+      <mat-icon class="login-icon">lock</mat-icon>
+      <h1>Anmelden</h1>
+      <p class="login-hint">Du wirst zur Anmeldeseite weitergeleitet.</p>
+
+      @if (errorMessage(); as message) {
+        <div class="error-message" data-testid="login-error">{{ message }}</div>
+      }
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        data-testid="login-submit"
+        (click)="signIn()"
+      >
+        Anmelden
+      </button>
+    </mat-card-content>
+  </mat-card>
+</section>
