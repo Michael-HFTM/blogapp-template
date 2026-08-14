@@ -1,12 +1,10 @@
 import { computed, effect, inject, Service, signal } from '@angular/core';
-import { Blog, BlogResponseSchema } from '../blog.model';
-import { firstValueFrom } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { Blog } from '../blog.model';
+import { BlogService } from '../blog.service';
 
 @Service()
 export class BlogStateService {
-  private http = inject(HttpClient);
+  private blogService = inject(BlogService);
 
   constructor() {
     effect(() => {
@@ -44,19 +42,12 @@ export class BlogStateService {
   /** Actions */
   public async loadBlogs(): Promise<void> {
     this.#loadStarted();
-    try {
-      const response = await firstValueFrom(this.http.get(`${environment.api}/entries`));
-      const result = BlogResponseSchema.safeParse(response);
-      if (!result.success) {
-        console.error('Invalid blog list response', result.error);
-        this.#loadFailed('Die Blogs konnten nicht geladen werden.');
-        return;
-      }
-      this.#loadSucceeded(result.data.data);
-    } catch (error) {
-      console.error('Failed to load blogs', error);
+    const blogs = await this.blogService.getAll();
+    if (blogs === undefined) {
       this.#loadFailed('Die Blogs konnten nicht geladen werden.');
+      return;
     }
+    this.#loadSucceeded(blogs);
   }
 
   public setAuthor(author: string): void {

@@ -1,5 +1,5 @@
 import { inject, Service } from '@angular/core';
-import { Blog, BlogDetail, BlogDetailSchema } from './blog.model';
+import { Blog, BlogDetail, BlogDetailSchema, BlogResponseSchema } from './blog.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -7,6 +7,21 @@ import { firstValueFrom } from 'rxjs';
 @Service()
 export class BlogService {
   private http = inject(HttpClient);
+
+  public async getAll(): Promise<Blog[] | undefined> {
+    try {
+      const response = await firstValueFrom(this.http.get(`${environment.api}/entries`));
+      const result = BlogResponseSchema.safeParse(response);
+      if (!result.success) {
+        console.error('Invalid blog list response', result.error);
+        return undefined;
+      }
+      return result.data.data;
+    } catch (error) {
+      console.error('Failed to load blogs', error);
+      return undefined;
+    }
+  }
 
   public async getById(id: number): Promise<BlogDetail | undefined> {
     try {
