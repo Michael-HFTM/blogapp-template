@@ -13,12 +13,32 @@
         Blogs
       </a>
       <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+      @if (authEnabled && canCreateBlog()) {
+        <a mat-button routerLink="/blog/create" routerLinkActive="active-link">Neuer Blog</a>
+      }
     </nav>
   }
 
   <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
     <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
   </button>
+
+  @if (authEnabled) {
+    @if (authStore.isAuthenticated()) {
+      <a mat-button routerLink="/profile" routerLinkActive="active-link">
+        <mat-icon>account_circle</mat-icon>
+        {{ authStore.user()?.preferred_username }}
+      </a>
+      <button mat-icon-button (click)="logout()" aria-label="Abmelden">
+        <mat-icon>logout</mat-icon>
+      </button>
+    } @else {
+      <a mat-button routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Anmelden
+      </a>
+    }
+  }
 
   @if (isMobile()) {
     <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Navigation menu">
@@ -39,6 +59,12 @@
         <mat-icon>info</mat-icon>
         About
       </a>
+      @if (authEnabled && canCreateBlog()) {
+        <a mat-menu-item routerLink="/blog/create" routerLinkActive="active-menu-item">
+          <mat-icon>post_add</mat-icon>
+          Neuer Blog
+        </a>
+      }
     </mat-menu>
   }
 </mat-toolbar>

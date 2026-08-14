@@ -1,0 +1,26 @@
+@use 'variables' as vars;
+
+.create-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl vars.$spacing-md;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-sm;
+
+  button {
+    align-self: flex-start;
+  }
+}
+
+.create-error {
+  margin: 0;
+  color: var(--mat-sys-error);
+}

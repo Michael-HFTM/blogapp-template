@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Breakpoints } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DOCUMENT } from '@angular/common';
 import { breakpointSignal } from '../utils/breakpoint-signal';
+import { environment } from '../../../environments/environment';
+import { AuthStore } from '../auth/auth.store';
 
 @Component({
   selector: 'app-header',
@@ -23,12 +25,21 @@ import { breakpointSignal } from '../utils/breakpoint-signal';
 })
 export class Header {
   private readonly document = inject(DOCUMENT);
+  protected readonly authStore = inject(AuthStore);
 
+  protected readonly authEnabled = environment.authEnabled;
+  /** Mirrors the roleGuard on /blog/create — the guard stays the actual gate. */
+  protected readonly canCreateBlog = computed(() => this.authStore.roles().includes('user'));
   protected readonly isDark = signal(false);
   protected readonly isMobile = breakpointSignal(Breakpoints.Handset);
 
   constructor() {
     this.initTheme();
+  }
+
+  logout(): void {
+    // Navigates away to Keycloak's end-session endpoint, so no router call here.
+    void this.authStore.logout();
   }
 
   private initTheme(): void {
