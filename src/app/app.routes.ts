@@ -2,11 +2,18 @@ import { Routes } from '@angular/router';
 import { BlogOverview } from './feature/blog/blog-overview/blog-overview';
 import { blogDetailResolver } from './feature/blog/blog-detail/blog-detail.resolver';
 import { authGuard } from './core/auth/auth.guard';
+import { roleGuard } from './core/auth/role.guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: BlogOverview,
+  },
+  {
+    // Must stay ahead of 'blog/:id', which would otherwise match "create" as an id.
+    path: 'blog/create',
+    canMatch: [roleGuard('user')],
+    loadComponent: () => import('./feature/blog/blog-create/blog-create'),
   },
   {
     path: 'blog/:id',

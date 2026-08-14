@@ -1,0 +1,45 @@
+<section class="create-page">
+  <mat-card appearance="outlined">
+    <mat-card-content>
+      <h1>Neuer Blog</h1>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Titel</mat-label>
+          <input matInput formControlName="title" data-testid="create-title" />
+          @if (form.controls.title.hasError('required')) {
+            <mat-error>Titel ist erforderlich.</mat-error>
+          }
+          @if (form.controls.title.hasError('maxlength')) {
+            <mat-error>Titel darf höchstens 120 Zeichen lang sein.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Inhalt</mat-label>
+          <textarea matInput rows="10" formControlName="content" data-testid="create-content">
+          </textarea>
+          @if (form.controls.content.hasError('required')) {
+            <mat-error>Inhalt ist erforderlich.</mat-error>
+          }
+        </mat-form-field>
+
+        @if (failed()) {
+          <p class="create-error" data-testid="create-error">
+            Der Blog konnte nicht gespeichert werden. Bitte versuche es erneut.
+          </p>
+        }
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          data-testid="create-submit"
+          [disabled]="saving()"
+        >
+          {{ saving() ? 'Wird gespeichert…' : 'Veröffentlichen' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

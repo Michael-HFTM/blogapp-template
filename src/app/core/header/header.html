@@ -13,6 +13,9 @@
         Blogs
       </a>
       <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+      @if (authEnabled && canCreateBlog()) {
+        <a mat-button routerLink="/blog/create" routerLinkActive="active-link">Neuer Blog</a>
+      }
     </nav>
   }
 
@@ -56,6 +59,12 @@
         <mat-icon>info</mat-icon>
         About
       </a>
+      @if (authEnabled && canCreateBlog()) {
+        <a mat-menu-item routerLink="/blog/create" routerLinkActive="active-menu-item">
+          <mat-icon>post_add</mat-icon>
+          Neuer Blog
+        </a>
+      }
     </mat-menu>
   }
 </mat-toolbar>

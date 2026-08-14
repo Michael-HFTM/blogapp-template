@@ -1,5 +1,5 @@
 import { inject, Service } from '@angular/core';
-import { Blog, BlogDetail, BlogDetailSchema, BlogResponseSchema } from './blog.model';
+import { Blog, BlogDetail, BlogDetailSchema, BlogResponseSchema, CreateBlog } from './blog.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -42,7 +42,7 @@ export class BlogService {
     await firstValueFrom(this.http.put(`${environment.apiUrl}/entries/${id}/like`, {}));
   }
 
-  public async createBlog(blog: Blog): Promise<Blog | undefined> {
+  public async createBlog(blog: CreateBlog): Promise<Blog | undefined> {
     try {
       return await firstValueFrom(this.http.post<Blog>(`${environment.apiUrl}/entries`, blog));
     } catch (error) {
