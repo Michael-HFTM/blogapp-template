@@ -1,26 +1,40 @@
-import { Component, inject, input, signal } from '@angular/core';
-import { BlogCard } from '../../../shared/blog-card/blog-card';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthorFilter } from '../author-filter/author-filter';
+import { BlogList } from '../blog-list/blog-list';
 import { BlogService } from '../blog.service';
-import { Blog } from '../blog.model';
+import { BlogStateService } from '../blog-state/blog-state.service';
 
 @Component({
   selector: 'app-blog-overview',
-  imports: [BlogCard],
+  imports: [MatProgressSpinnerModule, AuthorFilter, BlogList],
   templateUrl: './blog-overview.html',
   styleUrl: './blog-overview.scss',
 })
-export class BlogOverview {
+export class BlogOverview implements OnInit {
   private readonly blogService = inject(BlogService);
+  protected readonly state = inject(BlogStateService);
 
-  protected readonly blogs = input.required<Blog[]>();
-  protected readonly loading = signal(false);
+  protected readonly likeLoading = signal(false);
+
+  protected readonly noResults = computed(
+    () => this.state.filteredBlogs().length === 0 && !this.state.loading() && !this.state.error(),
+  );
+
+  ngOnInit(): void {
+    this.state.loadBlogs();
+  }
+
+  onAuthorChange(author: string): void {
+    this.state.setAuthor(author);
+  }
 
   async onLiked(blogId: number): Promise<void> {
-    this.loading.set(true);
+    this.likeLoading.set(true);
     try {
       await this.blogService.like(blogId);
     } finally {
-      this.loading.set(false);
+      this.likeLoading.set(false);
     }
   }
 }

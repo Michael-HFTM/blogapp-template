@@ -1,17 +1,28 @@
 <header class="blog-list-header">
   <h1>Blog</h1>
   <p class="subtitle-row">
-    <span>Artikel aus dem HFTM Web Applications Kurs</span>
-    @if (loading()) {
-      <span class="loading-indicator">Laden...</span>
+    <span>Artikel aus dem HFTM Web Applications Kurs ({{ state.blogCount() }})</span>
+    @if (state.loading()) {
+      <mat-progress-spinner
+        class="loading-indicator"
+        mode="indeterminate"
+        diameter="20"
+      ></mat-progress-spinner>
     }
   </p>
+  <app-author-filter
+    [authors]="state.authors()"
+    [selected]="state.selectedAuthor()"
+    (authorChange)="onAuthorChange($event)"
+  ></app-author-filter>
 </header>
 
-<section class="blog-list">
-  @for (blog of blogs(); track blog.id) {
-    <app-blog-card [blog]="blog" (like)="onLiked($event)"></app-blog-card>
-  } @empty {
-    <p>No blogs found.</p>
-  }
-</section>
+@if (state.error(); as error) {
+  <p class="error-message">{{ error }}</p>
+}
+
+<app-blog-list
+  [blogs]="state.filteredBlogs()"
+  [showEmpty]="noResults()"
+  (like)="onLiked($event)"
+></app-blog-list>

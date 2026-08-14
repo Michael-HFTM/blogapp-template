@@ -1,0 +1,9 @@
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
+.blog-list {
+  @include mix.responsive-grid(280px);
+  padding: vars.$spacing-md vars.$spacing-lg vars.$spacing-xl;
+  max-width: 1200px;
+  margin: 0 auto;
+}
