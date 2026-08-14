@@ -24,7 +24,7 @@
     @if (authStore.isAuthenticated()) {
       <button mat-button (click)="logout()">
         <mat-icon>logout</mat-icon>
-        {{ authStore.userData()?.preferred_username }}
+        {{ authStore.user()?.preferred_username }}
       </button>
     } @else {
       <a mat-button routerLink="/login">

@@ -15,7 +15,7 @@ export const authGuard: CanMatchFn = async (_route, segments: UrlSegment[]) => {
   const authStore = inject(AuthStore);
   await authStore.ready;
 
-  if (authStore.isAuthenticated() && authStore.roles()?.includes('user')) {
+  if (authStore.isAuthenticated() && authStore.roles().includes('user')) {
     return true;
   }
 
