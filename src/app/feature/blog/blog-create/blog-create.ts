@@ -1,56 +1,49 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BlogService } from '../blog.service';
+import { MatSelectModule } from '@angular/material/select';
+
+import { form, FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-blog-create',
   imports: [
-    ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDividerModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
+    MatSelectModule,
+    FormField,
   ],
   templateUrl: './blog-create.html',
   styleUrl: './blog-create.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class BlogCreate {
-  readonly #formBuilder = inject(FormBuilder);
-  readonly #blogService = inject(BlogService);
-  readonly #router = inject(Router);
+  readonly categories = ['general', 'technic', 'lifestyle'];
 
-  protected readonly saving = signal(false);
-  protected readonly failed = signal(false);
-
-  protected readonly form = this.#formBuilder.nonNullable.group({
-    title: ['', [Validators.required, Validators.maxLength(120)]],
-    content: ['', Validators.required],
+  blogModel = signal<BlogData>({
+    title: '',
+    content: '',
+    category: 'general',
   });
 
-  protected async submit(): Promise<void> {
-    if (this.form.invalid || this.saving()) {
-      this.form.markAllAsTouched();
-      return;
-    }
+  blogForm = form(this.blogModel);
 
-    this.saving.set(true);
-    this.failed.set(false);
-
-    const created = await this.#blogService.createBlog(this.form.getRawValue());
-
-    this.saving.set(false);
-
-    if (!created) {
-      this.failed.set(true);
-      return;
-    }
-
-    await this.#router.navigate(['/']);
+  onSubmit($event: SubmitEvent) {
+    $event.preventDefault();
+    console.log(this.blogModel());
   }
+}
+
+interface BlogData {
+  title: string;
+  content: string;
+  category: string;
 }

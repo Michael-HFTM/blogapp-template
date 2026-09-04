@@ -1,44 +1,50 @@
 <section class="create-page">
-  <mat-card appearance="outlined">
-    <mat-card-content>
-      <h1>Neuer Blog</h1>
+  <mat-card class="create-card" appearance="outlined">
+    <div class="create-hero">
+      <div class="create-avatar">
+        <mat-icon>edit_note</mat-icon>
+      </div>
+      <div class="create-identity">
+        <h1>Neuer Blog</h1>
+        <p class="create-subtitle">Teile deine Gedanken mit der Community.</p>
+      </div>
+    </div>
 
-      <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-divider />
+
+    <mat-card-content class="create-content">
+      <form (submit)="onSubmit($event)" class="create-form">
         <mat-form-field appearance="outline">
           <mat-label>Titel</mat-label>
-          <input matInput formControlName="title" data-testid="create-title" />
-          @if (form.controls.title.hasError('required')) {
-            <mat-error>Titel ist erforderlich.</mat-error>
-          }
-          @if (form.controls.title.hasError('maxlength')) {
-            <mat-error>Titel darf höchstens 120 Zeichen lang sein.</mat-error>
-          }
+          <input matInput type="text" [formField]="blogForm.title" data-testid="create-title" />
+          <mat-icon matSuffix>title</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Inhalt</mat-label>
-          <textarea matInput rows="10" formControlName="content" data-testid="create-content">
-          </textarea>
-          @if (form.controls.content.hasError('required')) {
-            <mat-error>Inhalt ist erforderlich.</mat-error>
-          }
+          <textarea
+            matInput
+            rows="8"
+            [formField]="blogForm.content"
+            data-testid="create-content"
+          ></textarea>
         </mat-form-field>
 
-        @if (failed()) {
-          <p class="create-error" data-testid="create-error">
-            Der Blog konnte nicht gespeichert werden. Bitte versuche es erneut.
-          </p>
-        }
+        <mat-form-field appearance="outline">
+          <mat-label>Kategorie</mat-label>
+          <mat-select [formField]="blogForm.category" data-testid="create-category">
+            @for (category of categories; track category) {
+              <mat-option [value]="category">{{ category }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
 
-        <button
-          mat-flat-button
-          color="primary"
-          type="submit"
-          data-testid="create-submit"
-          [disabled]="saving()"
-        >
-          {{ saving() ? 'Wird gespeichert…' : 'Veröffentlichen' }}
-        </button>
+        <div class="create-actions">
+          <button mat-flat-button color="primary" type="submit" data-testid="create-submit">
+            <mat-icon>send</mat-icon>
+            Veröffentlichen
+          </button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

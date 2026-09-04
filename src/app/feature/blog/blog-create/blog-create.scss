@@ -1,26 +1,88 @@
 @use 'variables' as vars;
+@use 'mixins' as mix;
 
 .create-page {
-  max-width: 720px;
+  max-width: 700px;
   margin: 0 auto;
   padding: vars.$spacing-xl vars.$spacing-md;
 }
 
-h1 {
-  margin-top: 0;
+.create-card {
+  overflow: hidden;
 }
 
-form {
+// ── Hero ──
+.create-hero {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-lg;
+  padding: vars.$spacing-xl;
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary-container),
+    var(--mat-sys-tertiary-container)
+  );
+}
+
+.create-avatar {
+  @include mix.flex-center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.create-identity {
+  h1 {
+    margin: 0 0 vars.$spacing-xs;
+    font-size: 1.5rem;
+    color: var(--mat-sys-on-primary-container);
+  }
+
+  .create-subtitle {
+    margin: 0;
+    color: var(--mat-sys-on-primary-container);
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+}
+
+// ── Form ──
+.create-content {
+  padding: vars.$spacing-lg !important;
+}
+
+.create-form {
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-sm;
 
-  button {
-    align-self: flex-start;
+  mat-form-field {
+    width: 100%;
   }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.create-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: vars.$spacing-sm;
+  margin-top: vars.$spacing-xs;
 }
 
 .create-error {
   margin: 0;
   color: var(--mat-sys-error);
+  font-size: 0.9rem;
 }
