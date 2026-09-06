@@ -61,6 +61,18 @@ export default class BlogCreate {
     });
     required(s.content, { message: 'Inhalt ist erforderlich' });
     minLength(s.content, 10, { message: 'Inhalt muss mindestens 10 Zeichen lang sein' });
+    // Cross-Field: laeuft dank valueOf() neu, sobald sich der Titel aendert.
+    validate(s.content, ({ value, valueOf }) => {
+      const content = value();
+      const title = valueOf(s.title);
+      if (content !== '' && content.length < title.length * 2) {
+        return {
+          kind: 'contentTooShortForTitle',
+          message: `Inhalt muss mindestens doppelt so lang wie der Titel sein (${title.length * 2} Zeichen)`,
+        };
+      }
+      return null;
+    });
     required(s.category, { message: 'Kategorie ist erforderlich' });
   });
 
