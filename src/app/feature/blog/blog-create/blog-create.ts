@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { form, FormField, minLength, maxLength, required } from '@angular/forms/signals';
+import { form, FormField, minLength, maxLength, required, submit } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-blog-create',
@@ -45,7 +45,12 @@ export default class BlogCreate {
 
   onSubmit($event: SubmitEvent) {
     $event.preventDefault();
-    console.log(this.blogModel());
+
+    // submit() markiert alle Felder als touched, prueft die Validierung und
+    // ruft die Action nur bei einem gueltigen Formular auf.
+    submit(this.blogForm, async () => {
+      console.log(this.blogModel());
+    });
   }
 }
 
