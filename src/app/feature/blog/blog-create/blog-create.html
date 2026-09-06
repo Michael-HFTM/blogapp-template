@@ -18,6 +18,11 @@
           <mat-label>Titel</mat-label>
           <input matInput type="text" [formField]="blogForm.title" data-testid="create-title" />
           <mat-icon matSuffix>title</mat-icon>
+          @if (blogForm.title().touched() && blogForm.title().invalid()) {
+            @for (error of blogForm.title().errors(); track error.kind) {
+              <mat-error>{{ error.message }}</mat-error>
+            }
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -28,6 +33,11 @@
             [formField]="blogForm.content"
             data-testid="create-content"
           ></textarea>
+          @if (blogForm.content().touched() && blogForm.content().invalid()) {
+            @for (error of blogForm.content().errors(); track error.kind) {
+              <mat-error>{{ error.message }}</mat-error>
+            }
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -37,6 +47,11 @@
               <mat-option [value]="category">{{ category }}</mat-option>
             }
           </mat-select>
+          @if (blogForm.category().touched() && blogForm.category().invalid()) {
+            @for (error of blogForm.category().errors(); track error.kind) {
+              <mat-error>{{ error.message }}</mat-error>
+            }
+          }
         </mat-form-field>
 
         <div class="create-actions">
