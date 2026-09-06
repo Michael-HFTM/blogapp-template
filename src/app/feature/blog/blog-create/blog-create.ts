@@ -1,56 +1,94 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BlogService } from '../blog.service';
+import { MatSelectModule } from '@angular/material/select';
+
+import {
+  form,
+  FormField,
+  minLength,
+  maxLength,
+  required,
+  submit,
+  validate,
+} from '@angular/forms/signals';
+
+// Erlaubt Buchstaben (inkl. Umlaute/Akzente), Ziffern und Leerzeichen.
+const TITLE_PATTERN = /^[\p{L}\p{N} ]+$/u;
 
 @Component({
   selector: 'app-blog-create',
   imports: [
-    ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDividerModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
+    MatSelectModule,
+    FormField,
   ],
   templateUrl: './blog-create.html',
   styleUrl: './blog-create.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class BlogCreate {
-  readonly #formBuilder = inject(FormBuilder);
-  readonly #blogService = inject(BlogService);
-  readonly #router = inject(Router);
+  readonly categories = ['general', 'technic', 'lifestyle'];
 
-  protected readonly saving = signal(false);
-  protected readonly failed = signal(false);
-
-  protected readonly form = this.#formBuilder.nonNullable.group({
-    title: ['', [Validators.required, Validators.maxLength(120)]],
-    content: ['', Validators.required],
+  blogModel = signal<BlogData>({
+    title: '',
+    content: '',
+    category: 'general',
   });
 
-  protected async submit(): Promise<void> {
-    if (this.form.invalid || this.saving()) {
-      this.form.markAllAsTouched();
-      return;
-    }
+  blogForm = form(this.blogModel, (s) => {
+    required(s.title, { message: 'Titel ist erforderlich' });
+    minLength(s.title, 3, { message: 'Titel muss mindestens 3 Zeichen lang sein' });
+    maxLength(s.title, 100, { message: 'Titel darf maximal 100 Zeichen lang sein' });
+    validate(s.title, ({ value }) => {
+      const title = value();
+      if (title !== '' && !TITLE_PATTERN.test(title)) {
+        return {
+          kind: 'noSpecialChars',
+          message: 'Titel darf nur Buchstaben, Zahlen und Leerzeichen enthalten',
+        };
+      }
+      return undefined;
+    });
+    required(s.content, { message: 'Inhalt ist erforderlich' });
+    minLength(s.content, 10, { message: 'Inhalt muss mindestens 10 Zeichen lang sein' });
+    // Cross-Field: laeuft dank valueOf() neu, sobald sich der Titel aendert.
+    validate(s.content, ({ value, valueOf }) => {
+      const content = value();
+      const title = valueOf(s.title);
+      if (content !== '' && content.length < title.length * 2) {
+        return {
+          kind: 'contentTooShortForTitle',
+          message: `Inhalt muss mindestens doppelt so lang wie der Titel sein (${title.length * 2} Zeichen)`,
+        };
+      }
+      return null;
+    });
+    required(s.category, { message: 'Kategorie ist erforderlich' });
+  });
 
-    this.saving.set(true);
-    this.failed.set(false);
+  onSubmit($event: SubmitEvent) {
+    $event.preventDefault();
 
-    const created = await this.#blogService.createBlog(this.form.getRawValue());
-
-    this.saving.set(false);
-
-    if (!created) {
-      this.failed.set(true);
-      return;
-    }
-
-    await this.#router.navigate(['/']);
+    // submit() markiert alle Felder als touched, prueft die Validierung und
+    // ruft die Action nur bei einem gueltigen Formular auf.
+    submit(this.blogForm, async () => {
+      console.log(this.blogModel());
+    });
   }
+}
+
+interface BlogData {
+  title: string;
+  content: string;
+  category: string;
 }
