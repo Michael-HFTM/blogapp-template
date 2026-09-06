@@ -55,7 +55,13 @@
         </mat-form-field>
 
         <div class="create-actions">
-          <button mat-flat-button color="primary" type="submit" data-testid="create-submit">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            data-testid="create-submit"
+            [disabled]="blogForm().invalid()"
+          >
             <mat-icon>send</mat-icon>
             Veröffentlichen
           </button>
