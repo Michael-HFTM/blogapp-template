@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, minLength, maxLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-blog-create',
@@ -34,7 +34,14 @@ export default class BlogCreate {
     category: 'general',
   });
 
-  blogForm = form(this.blogModel);
+  blogForm = form(this.blogModel, (s) => {
+    required(s.title, { message: 'Titel ist erforderlich' });
+    minLength(s.title, 3, { message: 'Titel muss mindestens 3 Zeichen lang sein' });
+    maxLength(s.title, 100, { message: 'Titel darf maximal 100 Zeichen lang sein' });
+    required(s.content, { message: 'Inhalt ist erforderlich' });
+    minLength(s.content, 10, { message: 'Inhalt muss mindestens 10 Zeichen lang sein' });
+    required(s.category, { message: 'Kategorie ist erforderlich' });
+  });
 
   onSubmit($event: SubmitEvent) {
     $event.preventDefault();
