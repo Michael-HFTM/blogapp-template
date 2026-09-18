@@ -1,0 +1,87 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="isMobile() ? 'dialog' : 'navigation'"
+    [mode]="isMobile() ? 'over' : 'side'"
+    [opened]="!isMobile()"
+  >
+    <mat-toolbar>Menü</mat-toolbar>
+    <mat-nav-list (click)="isMobile() && drawer.close()">
+      <a
+        mat-list-item
+        routerLink="/"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListItemIcon>article</mat-icon>
+        <span matListItemTitle>Blogs</span>
+      </a>
+      <a mat-list-item routerLink="/about" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>info</mat-icon>
+        <span matListItemTitle>About</span>
+      </a>
+      @if (authEnabled && canCreateBlog()) {
+        <a mat-list-item routerLink="/blog/create" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>post_add</mat-icon>
+          <span matListItemTitle>Neuer Blog</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="app-toolbar">
+      @if (isMobile()) {
+        <button type="button" aria-label="Toggle sidenav" matIconButton (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      }
+      <span class="toolbar-title">HFTM Web Applications (IN353)</span>
+      <span class="spacer"></span>
+
+      @if (!isMobile()) {
+        <nav class="nav">
+          <a
+            mat-button
+            routerLink="/"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Blogs
+          </a>
+          <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+          @if (authEnabled && canCreateBlog()) {
+            <a mat-button routerLink="/blog/create" routerLinkActive="active-link">Neuer Blog</a>
+          }
+        </nav>
+      }
+
+      <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
+        <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      @if (authEnabled) {
+        @if (authStore.isAuthenticated()) {
+          <a mat-button routerLink="/profile" routerLinkActive="active-link">
+            <mat-icon>account_circle</mat-icon>
+            {{ authStore.user()?.preferred_username }}
+          </a>
+          <button mat-icon-button (click)="logout()" aria-label="Abmelden">
+            <mat-icon>logout</mat-icon>
+          </button>
+        } @else {
+          <a mat-button routerLink="/login">
+            <mat-icon>login</mat-icon>
+            Anmelden
+          </a>
+        }
+      }
+    </mat-toolbar>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
