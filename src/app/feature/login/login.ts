@@ -29,11 +29,24 @@ export default class Login {
   });
 
   /**
+   * Only same-site paths are valid post-login targets — anything else is an open
+   * redirect. The BFF's `safeReturnUrl` is the actual gate; this mirrors it so a
+   * crafted `?returnUrl=` never leaves the client in the first place.
+   */
+  private safeReturnUrl(): string {
+    const url = this.returnUrl();
+    if (!url.startsWith('/') || url.startsWith('//') || url.startsWith('/\\')) {
+      return '/';
+    }
+    return url;
+  }
+
+  /**
    * Full navigation, not a fetch — the browser has to follow the BFF's redirect
    * to Keycloak and carry the `__pkce` cookie back to the callback.
    */
   signIn(): void {
-    const returnUrl = encodeURIComponent(this.returnUrl());
+    const returnUrl = encodeURIComponent(this.safeReturnUrl());
     window.location.href = `${environment.bffUrl}/auth/login?returnUrl=${returnUrl}`;
   }
 }
