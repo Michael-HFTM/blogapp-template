@@ -42,10 +42,17 @@
   text-overflow: ellipsis;
 }
 
+// Mobile first: links stack vertically. From the tablet breakpoint on they sit
+// side by side in the toolbar — same 768px boundary as the blog grid.
 .nav {
   display: flex;
+  flex-direction: column;
   gap: vars.$spacing-xs;
-  align-items: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+  }
 
   // Ripple/hover on the gradient background
   --mat-text-button-state-layer-color: var(--mat-sys-on-primary);
