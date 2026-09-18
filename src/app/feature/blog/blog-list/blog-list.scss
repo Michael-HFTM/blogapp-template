@@ -1,9 +1,27 @@
 @use 'variables' as vars;
-@use 'mixins' as mix;
 
 .blog-list {
-  @include mix.responsive-grid(280px);
+  // Mobile first: one column. flex-wrap lets the cards drop into the next row
+  // once their flex-basis no longer fits.
+  display: flex;
+  flex-wrap: wrap;
+  gap: vars.$spacing-lg;
   padding: vars.$spacing-md vars.$spacing-lg vars.$spacing-xl;
   max-width: 1200px;
   margin: 0 auto;
+
+  // The flex items are the <app-blog-card> host elements, not the inner mat-card.
+  app-blog-card {
+    flex: 1 1 100%;
+
+    // Tablet: 2 columns — one gap is shared between the two cards of a row.
+    @media (min-width: 768px) {
+      flex-basis: calc(50% - #{vars.$spacing-lg} / 2);
+    }
+
+    // Desktop: 3 columns — two gaps are spread across the three cards of a row.
+    @media (min-width: 1024px) {
+      flex-basis: calc(33.333% - #{vars.$spacing-lg} * 2 / 3);
+    }
+  }
 }
