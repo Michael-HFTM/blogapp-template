@@ -15,3 +15,22 @@ if (typeof globalThis.IntersectionObserver === 'undefined') {
     }
   } as unknown as typeof globalThis.IntersectionObserver;
 }
+
+// Polyfill matchMedia for jsdom (used by breakpointSignal). Reports "no match" and
+// never fires a change event, so components render their desktop layout in tests.
+if (typeof globalThis.matchMedia === 'undefined') {
+  globalThis.matchMedia = ((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    addEventListener() {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    removeEventListener() {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    addListener() {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    removeListener() {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof globalThis.matchMedia;
+}

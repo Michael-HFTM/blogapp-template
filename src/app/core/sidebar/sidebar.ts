@@ -1,13 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Breakpoints } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { DOCUMENT } from '@angular/common';
-import { breakpointSignal } from '../utils/breakpoint-signal';
+import { breakpointSignal, MOBILE_QUERY } from '../utils/breakpoint-signal';
 import { environment } from '../../../environments/environment';
 import { AuthStore } from '../auth/auth.store';
 
@@ -34,7 +33,7 @@ export class Sidebar {
   /** Mirrors the roleGuard on /blog/create — the guard stays the actual gate. */
   protected readonly canCreateBlog = computed(() => this.authStore.roles().includes('user'));
   protected readonly isDark = signal(false);
-  protected readonly isMobile = breakpointSignal(Breakpoints.Handset);
+  protected readonly isMobile = breakpointSignal(MOBILE_QUERY);
 
   constructor() {
     this.initTheme();
