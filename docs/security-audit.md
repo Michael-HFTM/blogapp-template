@@ -103,3 +103,37 @@ Dafür bräuchte es Azure **Static Web Apps** (`staticwebapp.config.json` → `g
 Azure Front Door / CDN mit Rules Engine, oder einen vorgelagerten nginx. Solange auf
 Storage deployt wird, fehlt der Clickjacking-Schutz durch `frame-ancestors` — Restrisiko
 bewusst akzeptiert.
+
+---
+
+## Experte — `npm audit`
+
+Ausgeführt am 2026-09-18 mit npm 11.3.0.
+
+### Frontend (`/`) — 5 moderate, 0 high/critical
+
+| Paket                       | Severity | Betroffene Version | Advisory                                                                                                                    | Prod-relevant                                                                                         |
+| --------------------------- | -------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `@angular/core`             | moderate | `>=22.0.0 <22.1.0` | [GHSA-hh8m-fm6v-7cvg](https://github.com/advisories/GHSA-hh8m-fm6v-7cvg) — Sanitization-Bypass über Directive-Host-Bindings | **ja**                                                                                                |
+| `@angular/compiler`         | moderate | `>=22.0.0 <22.1.0` | dasselbe Advisory                                                                                                           | **ja**                                                                                                |
+| `@angular/common`           | moderate | `22.0.0 - 22.1.0`  | Information Leak über `HttpTransferCache`-Bypass bei `withRequestsMadeViaParent`                                            | **ja**, aber nicht ausgenutzt: die App nutzt weder SSR/TransferCache noch `withRequestsMadeViaParent` |
+| `vitest` / `@vitest/mocker` | moderate | `2.1.0 - 4.1.10`   | [GHSA-82fw-gwwq-j7x9](https://github.com/advisories/GHSA-82fw-gwwq-j7x9) — Path Traversal beim Redirect-Mock                | nein, reine devDependency                                                                             |
+
+Installiert ist aktuell `@angular/core` 22.0.8, gefixt ab **22.1.0**.
+
+Das Angular-Advisory ist das einzige mit echtem Bezug zu diesem Projekt: Ein
+Sanitization-Bypass hebelt genau den Schutz aus, auf den sich Finding 1 oben stützt
+(„Angular escaped automatisch"). Die hier ergänzte CSP begrenzt den Schaden, ersetzt
+das Update aber nicht.
+
+### BFF (`bff/`)
+
+`found 0 vulnerabilities`.
+
+### Massnahme
+
+Bewusst **kein** `npm audit fix` in diesem Branch — der Update auf Angular 22.1.x gehört
+in einen eigenen Dependency-Branch und nicht in den Responsive-/Security-Umbau, sonst
+vermischen sich Layout-Regressionen mit Framework-Bumps. Empfehlung: zeitnah
+`npm audit fix` (Minor-Update innerhalb 22.x, kein Breaking Change) in einem separaten
+`chore(deps)`-Commit, anschliessend Unit- und E2E-Tests durchlaufen lassen.
