@@ -1,29 +1,32 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Breakpoints } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { DOCUMENT } from '@angular/common';
 import { breakpointSignal } from '../utils/breakpoint-signal';
 import { environment } from '../../../environments/environment';
 import { AuthStore } from '../auth/auth.store';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.html',
+  styleUrl: './sidebar.scss',
   imports: [
     RouterLink,
     RouterLinkActive,
+    RouterOutlet,
     MatToolbarModule,
     MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
     MatIconModule,
-    MatMenuModule,
   ],
-  templateUrl: './header.html',
-  styleUrl: './header.scss',
 })
-export class Header {
+export class Sidebar {
   private readonly document = inject(DOCUMENT);
   protected readonly authStore = inject(AuthStore);
 

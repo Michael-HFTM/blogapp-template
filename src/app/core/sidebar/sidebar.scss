@@ -1,6 +1,21 @@
 @use '../../../variables' as vars;
 
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
 .app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background: linear-gradient(
     135deg,
     var(--mat-sys-primary-container),
@@ -27,7 +42,7 @@
   text-overflow: ellipsis;
 }
 
-nav {
+.nav {
   display: flex;
   gap: vars.$spacing-xs;
   align-items: center;
@@ -36,13 +51,22 @@ nav {
   --mat-text-button-state-layer-color: var(--mat-sys-on-primary);
 }
 
-nav a.active-link {
+.nav a.active-link {
   background-color: var(--mat-sys-secondary-container);
   color: var(--mat-sys-on-secondary-container);
   border-radius: 9999px;
 }
 
-.active-menu-item {
-  --mat-menu-item-label-text-color: var(--mat-sys-on-secondary-container);
+mat-nav-list a.active-link {
   background-color: var(--mat-sys-secondary-container);
+  --mat-list-list-item-label-text-color: var(--mat-sys-on-secondary-container);
+  --mat-list-list-item-leading-icon-color: var(--mat-sys-on-secondary-container);
+}
+
+// Moved from app.scss: the routed content now lives in this component's template,
+// so the style has to live here too (emulated encapsulation).
+.content {
+  max-width: 1200px;
+  margin: vars.$spacing-xl auto;
+  padding: 0 vars.$spacing-md;
 }
