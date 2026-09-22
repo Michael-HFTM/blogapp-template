@@ -51,6 +51,9 @@ Thumbs.db
 # Junie
 .junie
 
+# webstorm
+.mcp.json
+
 # BFF (Azure Functions)
 bff/node_modules
 bff/dist
