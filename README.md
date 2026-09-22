@@ -6,13 +6,97 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+Local development needs **two** processes:
+
+| Process               | Port   | Purpose                                                                |
+| --------------------- | ------ | ---------------------------------------------------------------------- |
+| Angular dev server    | `4200` | the UI                                                                 |
+| BFF (Azure Functions) | `7071` | auth (Keycloak) + proxy to the blog backend, attaches the bearer token |
+
+`proxy.conf.json` forwards every `/api` call from `4200` to `7071`. Running `ng serve` on its
+own therefore gives you a UI whose blog list stays empty — the API calls have nowhere to go.
+
+### One-time setup
+
+1. **Install the Azure Functions Core Tools v4** (provides the `func` command):
+
+   ```bash
+   npm install -g azure-functions-core-tools@4 --unsafe-perm true
+   # or on Windows: winget install Microsoft.Azure.FunctionsCoreTools
+   ```
+
+2. **Install dependencies** — the BFF has its own `package.json`:
+
+   ```bash
+   npm install
+   cd bff && npm install && cd ..
+   ```
+
+3. **Create `bff/local.settings.json`.** The file is gitignored (it holds the client secret),
+   so it does not exist after a fresh clone and the BFF refuses to start without it:
+
+   ```json
+   {
+     "IsEncrypted": false,
+     "Values": {
+       "FUNCTIONS_WORKER_RUNTIME": "node",
+       "AzureWebJobsStorage": "",
+       "BACKEND_API_URL": "https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io",
+       "ALLOWED_ORIGIN": "http://localhost:4200",
+       "KEYCLOAK_URL": "https://<keycloak-host>/realms/<realm>",
+       "KEYCLOAK_CLIENT_ID": "<client-id>",
+       "KEYCLOAK_CLIENT_SECRET": "<client-secret>",
+       "SESSION_SECRET": "<at least 32 random characters>"
+     }
+   }
+   ```
+
+   - `ALLOWED_ORIGIN` — doubles as the CORS origin and the base of the Keycloak redirect URI.
+     **No trailing slash**, otherwise the redirect URI gets a double slash and Keycloak rejects
+     it. `http://` here also switches the session cookie out of `Secure` mode, which plain
+     `http://localhost` requires.
+   - `KEYCLOAK_URL` — must already include `/realms/<realm>`; the code appends
+     `/protocol/openid-connect/...`.
+   - `SESSION_SECRET` — needs **≥ 32 characters**, Iron rejects anything shorter.
+     Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`.
+
+4. **Register the redirect URI in Keycloak** for the client, otherwise login fails with
+   `Invalid parameter: redirect_uri`:
+   - Valid redirect URI: `http://localhost:4200/api/auth/callback`
+   - Valid post logout redirect URI: `http://localhost:4200/`
+   - Web origin: `http://localhost:4200`
+
+### Starting the app
 
 ```bash
-ng serve
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+This runs the Angular dev server and the BFF together (via `concurrently`). Open
+`http://localhost:4200/`. The UI reloads on source changes; the BFF is rebuilt by its
+`prestart` hook, so **restart `npm start` after editing anything under `bff/src`**.
+
+Individual processes, if you need them:
+
+```bash
+ng serve            # frontend only — /api calls will fail
+npm run start:bff   # BFF only, on http://localhost:7071
+```
+
+### Troubleshooting
+
+| Symptom                                                    | Cause                                                                            |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `func: command not found` / `'func' is not recognized`     | Azure Functions Core Tools not installed (step 1)                                |
+| BFF exits with `Missing required environment variable ...` | `bff/local.settings.json` missing or incomplete (step 3)                         |
+| Blog list empty, `/api/entries` returns 404                | BFF not running — use `npm start`, not `ng serve`                                |
+| Login ends in `Invalid parameter: redirect_uri`            | redirect URI not registered in Keycloak (step 4)                                 |
+| Logged out again right after login                         | `SESSION_SECRET` shorter than 32 chars, or `ALLOWED_ORIGIN` has a trailing slash |
+| `Port 7071 is unavailable`                                 | an older `func` process is still running — kill it and restart                   |
+
+Production builds do **not** use the BFF: `src/environments/environment.ts` sets
+`authEnabled: false` and points `apiUrl` straight at the backend, so the deployed site is
+read-only. Creating posts and liking only work locally.
 
 ## Code scaffolding
 
@@ -86,13 +170,15 @@ ng test
 
 ## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+End-to-end tests run on [Playwright](https://playwright.dev/) (`playwright.config.ts`, specs in `e2e/`):
 
 ```bash
-ng e2e
+npm run e2e      # headless
+npm run e2e:ui   # interactive UI mode
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Playwright starts the app itself via `npm start` (so the BFF setup above applies) and reuses an
+already running dev server on port `4200`.
 
 ## Additional Resources
 
