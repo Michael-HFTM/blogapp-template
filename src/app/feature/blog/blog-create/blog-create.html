@@ -54,16 +54,20 @@
           }
         </mat-form-field>
 
+        @if (submitError(); as error) {
+          <p class="create-error" role="alert" data-testid="create-error">{{ error }}</p>
+        }
+
         <div class="create-actions">
           <button
             mat-flat-button
             color="primary"
             type="submit"
             data-testid="create-submit"
-            [disabled]="blogForm().invalid()"
+            [disabled]="blogForm().invalid() || submitting()"
           >
             <mat-icon>send</mat-icon>
-            Veröffentlichen
+            {{ submitting() ? 'Wird gespeichert…' : 'Veröffentlichen' }}
           </button>
         </div>
       </form>
