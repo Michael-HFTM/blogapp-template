@@ -2,7 +2,6 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthorFilter } from '../author-filter/author-filter';
 import { BlogList } from '../blog-list/blog-list';
-import { BlogService } from '../blog.service';
 import { BlogStateService } from '../blog-state/blog-state.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { BlogStateService } from '../blog-state/blog-state.service';
   styleUrl: './blog-overview.scss',
 })
 export class BlogOverview implements OnInit {
-  private readonly blogService = inject(BlogService);
   protected readonly state = inject(BlogStateService);
 
   protected readonly likeLoading = signal(false);
@@ -32,7 +30,7 @@ export class BlogOverview implements OnInit {
   async onLiked(blogId: number): Promise<void> {
     this.likeLoading.set(true);
     try {
-      await this.blogService.like(blogId);
+      await this.state.toggleLike(blogId);
     } finally {
       this.likeLoading.set(false);
     }

@@ -38,8 +38,15 @@ export class BlogService {
     }
   }
 
-  public async like(id: number): Promise<void> {
-    await firstValueFrom(this.http.put(`${environment.apiUrl}/entries/${id}/like`, {}));
+  /** `false` heisst: der Server hat den Like nicht übernommen (Netz, 401, 500). */
+  public async like(id: number): Promise<boolean> {
+    try {
+      await firstValueFrom(this.http.put(`${environment.apiUrl}/entries/${id}/like`, {}));
+      return true;
+    } catch (error) {
+      console.error(`Failed to like blog ${id}`, error);
+      return false;
+    }
   }
 
   public async createBlog(blog: CreateBlog): Promise<Blog | undefined> {
