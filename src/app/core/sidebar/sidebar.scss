@@ -42,17 +42,13 @@
   text-overflow: ellipsis;
 }
 
-// Mobile first: links stack vertically. From the tablet breakpoint on they sit
-// side by side in the toolbar — same 768px boundary as the blog grid.
+// Rendert nur ab dem Tablet-Breakpoint (768px, dieselbe Grenze wie beim Blog-Grid):
+// darunter übernimmt die Sidenav, deshalb braucht es hier keine Stapel-Variante.
 .nav {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: vars.$spacing-xs;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: center;
-  }
 
   // Ripple/hover on the gradient background
   --mat-text-button-state-layer-color: var(--mat-sys-on-primary);

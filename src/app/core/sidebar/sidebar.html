@@ -1,41 +1,51 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport
-    [attr.role]="isMobile() ? 'dialog' : 'navigation'"
-    [mode]="isMobile() ? 'over' : 'side'"
-    [opened]="!isMobile()"
-  >
-    <mat-toolbar>Menü</mat-toolbar>
-    <mat-nav-list (click)="isMobile() && drawer.close()">
-      <a
-        mat-list-item
-        routerLink="/"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <mat-icon matListItemIcon>article</mat-icon>
-        <span matListItemTitle>Blogs</span>
-      </a>
-      <a mat-list-item routerLink="/about" routerLinkActive="active-link">
-        <mat-icon matListItemIcon>info</mat-icon>
-        <span matListItemTitle>About</span>
-      </a>
-      @if (authEnabled && canCreateBlog()) {
-        <a mat-list-item routerLink="/blog/create" routerLinkActive="active-link">
-          <mat-icon matListItemIcon>post_add</mat-icon>
-          <span matListItemTitle>Neuer Blog</span>
+  <!-- Nur mobil: auf Desktop navigiert die Toolbar, eine zweite Navigation
+       daneben wäre dieselbe Liste doppelt. -->
+  @if (isMobile()) {
+    <mat-sidenav
+      class="sidenav"
+      fixedInViewport
+      role="dialog"
+      mode="over"
+      [opened]="drawerOpen()"
+      (openedChange)="drawerOpen.set($event)"
+    >
+      <mat-toolbar>Menü</mat-toolbar>
+      <mat-nav-list (click)="drawerOpen.set(false)">
+        <a
+          mat-list-item
+          routerLink="/"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon matListItemIcon>article</mat-icon>
+          <span matListItemTitle>Blogs</span>
         </a>
-      }
-    </mat-nav-list>
-  </mat-sidenav>
+        <a mat-list-item routerLink="/about" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>info</mat-icon>
+          <span matListItemTitle>About</span>
+        </a>
+        @if (authEnabled && canCreateBlog()) {
+          <a mat-list-item routerLink="/blog/create" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>post_add</mat-icon>
+            <span matListItemTitle>Neuer Blog</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+  }
 
   <mat-sidenav-content>
     <mat-toolbar class="app-toolbar">
       @if (isMobile()) {
-        <button type="button" aria-label="Toggle sidenav" matIconButton (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <button
+          type="button"
+          aria-label="Navigation öffnen"
+          [attr.aria-expanded]="drawerOpen()"
+          matIconButton
+          (click)="drawerOpen.set(!drawerOpen())"
+        >
+          <mat-icon>menu</mat-icon>
         </button>
       }
       <span class="toolbar-title">HFTM Web Applications (IN353)</span>

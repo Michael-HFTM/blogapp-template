@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,8 +35,24 @@ export class Sidebar {
   protected readonly isDark = signal(false);
   protected readonly isMobile = breakpointSignal(MOBILE_QUERY);
 
+  /**
+   * Offen-Zustand der mobilen Sidenav. Bewusst ein Signal statt einer
+   * `#drawer`-Template-Referenz: Sidenav und Burger-Button liegen in zwei
+   * getrennten `@if`-Blöcken, und über diese Grenze hinweg löst Angular keine
+   * Template-Referenz auf.
+   */
+  protected readonly drawerOpen = signal(false);
+
   constructor() {
     this.initTheme();
+
+    // Beim Wechsel auf Desktop verschwindet die Sidenav aus dem DOM. Ohne Reset
+    // stünde sie beim Zurückwechseln auf Mobile unvermittelt offen.
+    effect(() => {
+      if (!this.isMobile()) {
+        this.drawerOpen.set(false);
+      }
+    });
   }
 
   logout(): void {
