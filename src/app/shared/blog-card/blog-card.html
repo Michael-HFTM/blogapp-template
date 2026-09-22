@@ -17,8 +17,11 @@
       <mat-icon>{{ blog().likedByMe ? 'favorite' : 'favorite_border' }}</mat-icon>
     </button>
     <span class="like-count">{{ blog().likes }}</span>
-    <button matIconButton aria-label="Comment" (click)="$event.stopPropagation()">
+    <!-- Kein Button: Kommentare stehen im Beitrag, und die ganze Karte verlinkt
+         bereits dorthin. Ein Button ohne Aktion verspricht mehr, als er hält. -->
+    <span class="comment-count" [attr.aria-label]="blog().comments + ' Kommentare'">
       <mat-icon>chat_bubble_outline</mat-icon>
-    </button>
+      {{ blog().comments }}
+    </span>
   </mat-card-actions>
 </mat-card>
