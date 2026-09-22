@@ -91,3 +91,96 @@
     font-size: 1.05rem;
   }
 }
+
+// ── Löschen ──
+.blog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: vars.$spacing-sm;
+  padding: 0 vars.$spacing-xl vars.$spacing-lg;
+}
+
+.confirm-text {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.95rem;
+}
+
+// Zerstörende Aktion: Error-Farbe des Themes statt des entfernten `color="warn"`.
+// Token-Namen sind `--mat-button-<variante>-*` (Material 22), nicht `--mdc-*`.
+.delete-start {
+  --mat-button-outlined-label-text-color: var(--mat-sys-error);
+  --mat-button-outlined-icon-color: var(--mat-sys-error);
+  --mat-button-outlined-outline-color: var(--mat-sys-error);
+  --mat-button-outlined-state-layer-color: var(--mat-sys-error);
+}
+
+.delete-confirm {
+  --mat-button-filled-container-color: var(--mat-sys-error);
+  --mat-button-filled-label-text-color: var(--mat-sys-on-error);
+  --mat-button-filled-icon-color: var(--mat-sys-on-error);
+  --mat-button-filled-state-layer-color: var(--mat-sys-on-error);
+}
+
+.delete-error {
+  margin: 0;
+  padding: 0 vars.$spacing-xl vars.$spacing-lg;
+  color: var(--mat-sys-error);
+}
+
+// ── Kommentare ──
+.blog-comments {
+  padding: 0 vars.$spacing-xl vars.$spacing-lg;
+
+  h2 {
+    margin: 0 0 vars.$spacing-md;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.comment {
+  display: flex;
+  gap: vars.$spacing-sm;
+  padding: vars.$spacing-sm 0;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.comment-avatar {
+  flex-shrink: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.comment-body {
+  min-width: 0;
+}
+
+.comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: vars.$spacing-sm;
+  margin: 0 0 vars.$spacing-xs;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.comment-author {
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.comment-text {
+  margin: 0;
+  line-height: 1.6;
+  // Kommentare kommen ungefiltert aus dem Backend: lange Wörter dürfen das
+  // Layout nicht sprengen.
+  overflow-wrap: anywhere;
+  color: var(--mat-sys-on-surface);
+}
+
+.no-comments {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}

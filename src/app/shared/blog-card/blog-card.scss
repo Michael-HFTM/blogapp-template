@@ -49,4 +49,19 @@
     font-size: 14px;
     color: var(--mat-sys-on-surface-variant);
   }
+
+  .comment-count {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    margin-right: vars.$spacing-sm;
+    font-size: 14px;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
 }

@@ -30,6 +30,65 @@
     <div class="blog-content">
       <p>{{ blog.content }}</p>
     </div>
+
+    <!-- Die Kommentare kommen bereits mit GET /entries/:id mit — kein zweiter Request. -->
+    <section class="blog-comments" data-testid="comments">
+      <h2>Kommentare ({{ blog.comments.length }})</h2>
+
+      @for (comment of blog.comments; track comment.id) {
+        <article class="comment">
+          <mat-icon class="comment-avatar">person</mat-icon>
+          <div class="comment-body">
+            <p class="comment-meta">
+              <span class="comment-author">{{ comment.author }}</span>
+              <time [attr.datetime]="comment.createdAt">
+                {{ comment.createdAt | date: 'dd. MMM yyyy' }}
+              </time>
+            </p>
+            <p class="comment-text">{{ comment.content }}</p>
+          </div>
+        </article>
+      } @empty {
+        <p class="no-comments">Noch keine Kommentare.</p>
+      }
+    </section>
+
+    <!-- Nur für eigene Beiträge. Das Backend prüft die Berechtigung selbst —
+         `createdByMe` blendet hier bloss aus, was ohnehin scheitern würde. -->
+    @if (blog.createdByMe) {
+      <div class="blog-actions">
+        @if (confirmingDelete()) {
+          <span class="confirm-text">Diesen Blog endgültig löschen?</span>
+          <button
+            mat-flat-button
+            class="delete-confirm"
+            data-testid="delete-confirm"
+            [disabled]="deleting()"
+            (click)="deleteBlog()"
+          >
+            <mat-icon>delete_forever</mat-icon>
+            {{ deleting() ? 'Wird gelöscht…' : 'Ja, löschen' }}
+          </button>
+          <button mat-button [disabled]="deleting()" (click)="confirmingDelete.set(false)">
+            Abbrechen
+          </button>
+        } @else {
+          <button
+            mat-stroked-button
+            class="delete-start"
+            data-testid="delete-start"
+            (click)="confirmingDelete.set(true)"
+          >
+            <mat-icon>delete</mat-icon>
+            Löschen
+          </button>
+        }
+      </div>
+
+      @if (deleteError(); as error) {
+        <p class="delete-error" role="alert" data-testid="delete-error">{{ error }}</p>
+      }
+    }
   </article>
 } @else {
   <p>Blog-Post nicht gefunden.</p>

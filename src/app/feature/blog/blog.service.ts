@@ -69,11 +69,14 @@ export class BlogService {
     }
   }
 
-  public async deleteBlog(id: number): Promise<void> {
+  /** `false` heisst: der Blog steht noch — der Aufrufer darf nicht wegnavigieren. */
+  public async deleteBlog(id: number): Promise<boolean> {
     try {
       await firstValueFrom(this.http.delete<void>(`${environment.apiUrl}/entries/${id}`));
+      return true;
     } catch (error) {
       console.error(`Failed to delete blog ${id}`, error);
+      return false;
     }
   }
 }
