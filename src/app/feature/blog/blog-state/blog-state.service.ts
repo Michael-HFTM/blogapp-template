@@ -54,6 +54,21 @@ export class BlogStateService {
     this.#authorSelected(author);
   }
 
+  /**
+   * Schaltet den Like optimistisch um: das Herz reagiert sofort, der Request läuft
+   * danach. Scheitert er, wird die Änderung zurückgedreht — sonst zeigt die Liste
+   * einen Like an, den der Server nie gespeichert hat.
+   */
+  public async toggleLike(id: number): Promise<void> {
+    this.#likeToggled(id);
+
+    const ok = await this.blogService.like(id);
+    if (!ok) {
+      this.#likeToggled(id);
+      this.#errorRaised('Der Like konnte nicht gespeichert werden.');
+    }
+  }
+
   /** Reducers */
   #loadStarted(): void {
     this.#state.update((state) => ({ ...state, loading: true, error: null }));
@@ -65,6 +80,26 @@ export class BlogStateService {
 
   #loadFailed(message: string): void {
     this.#state.update((state) => ({ ...state, loading: false, error: message }));
+  }
+
+  #errorRaised(message: string): void {
+    this.#state.update((state) => ({ ...state, error: message }));
+  }
+
+  /** Eigener Reducer statt Reload: ein Toggle ist sein eigenes Gegenteil. */
+  #likeToggled(id: number): void {
+    this.#state.update((state) => ({
+      ...state,
+      blogs: state.blogs.map((blog) =>
+        blog.id === id
+          ? {
+              ...blog,
+              likedByMe: !blog.likedByMe,
+              likes: blog.likes + (blog.likedByMe ? -1 : 1),
+            }
+          : blog,
+      ),
+    }));
   }
 
   #authorSelected(author: string): void {
