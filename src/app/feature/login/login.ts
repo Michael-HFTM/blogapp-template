@@ -18,8 +18,10 @@ const ERROR_MESSAGES: Record<string, string> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class Login {
-  // Bound from the query string via withComponentInputBinding().
-  readonly returnUrl = input('/');
+  // Bound from the query string via withComponentInputBinding(). No default value:
+  // the router assigns `undefined` when the query parameter is absent, which would
+  // override one anyway — the fallback lives in safeReturnUrl() instead.
+  readonly returnUrl = input<string | undefined>();
   readonly error = input<string | undefined>();
 
   protected readonly errorMessage = computed(() => {
@@ -35,7 +37,7 @@ export default class Login {
    */
   private safeReturnUrl(): string {
     const url = this.returnUrl();
-    if (!url.startsWith('/') || url.startsWith('//') || url.startsWith('/\\')) {
+    if (!url || !url.startsWith('/') || url.startsWith('//') || url.startsWith('/\\')) {
       return '/';
     }
     return url;
