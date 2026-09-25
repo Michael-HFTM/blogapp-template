@@ -43,13 +43,14 @@ export async function mockApi(page: Page): Promise<void> {
     route.fulfill({ json: { isAuthenticated: false, user: null } }),
   );
 
-  await page.route(/\/api\/entries$/, (route) =>
+  // Kein /api-Präfix: der Prod-Build (CI) ruft das Backend direkt auf, der Dev-Server via /api-Proxy.
+  await page.route(/\/entries$/, (route) =>
     route.fulfill({
       json: { data: blogs, totalCount: blogs.length, pageIndex: 0, pageSize: 10, maxPageSize: 100 },
     }),
   );
 
-  await page.route(/\/api\/entries\/\d+$/, (route) => {
+  await page.route(/\/entries\/\d+$/, (route) => {
     const id = Number(route.request().url().split('/').pop());
     const found = blogs.find((b) => b.id === id);
     if (!found) {
