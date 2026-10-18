@@ -6,9 +6,8 @@ name: Deploy to Azure Storage
 permissions:
   contents: read
 
+# Automatischer Deploy deaktiviert, nur noch manuell auslösbar.
 on:
-  push:
-    branches: [main]
   workflow_dispatch: {}
 
 env:
