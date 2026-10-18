@@ -1,6 +1,6 @@
 # Michaels Blogapp
 
-URI: https://michaelsblogapp.z36.web.core.windows.net/
+~~URI: https://michaelsblogapp.z36.web.core.windows.net/~~
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
 
